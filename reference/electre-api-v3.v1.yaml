@@ -92,31 +92,53 @@ paths:
                 type: object
                 properties: {}
               examples:
-                example-1:
+                "Réponse: Création d'une recherche livre":
                   value:
-                    id: 6e3b8f11-0a71-11e8-92e7-a61d07bd47d9
+                    id: '8'
                     catalog: livre
                     simple:
                       fields:
                         - titre
                         - collection
-                        - auteur
-                        - éditeur
-                        - isbnEan
-                      query: québec
+                      query: voyage nuit
+                    isbnEans: null
+                    rebond: null
+                    filters: null
                     _links:
                       - rel: self
-                        href: 'https://api.electre.com/v1.0/searches/6e3b8f11-0a71-11e8-92e7-a61d07bd47d9'
+                        href: 'https://api.electre.com/api/v1/searches/8'
                       - rel: results
-                        href: 'https://api.electre.com/v1.0/searches/6e3b8f11-0a71-11e8-92e7-a61d07bd47d9/results'
+                        href: 'https://api.electre.com/api/v1/searches/8/results'
                       - rel: facets
-                        href: 'https://api.electre.com/v1.0/searches/6e3b8f11-0a71-11e8-92e7-a61d07bd47d9/facets'
+                        href: 'https://api.electre.com/api/v1/searches/8/facets'
+                "Réponse: Création d'une recherche musique":
+                  value:
+                    id: 79470710-0bee-11e8-8b77-d7d6eae80d31
+                    catalog: musique
+                    filters:
+                      artiste:
+                        - 14-8590
+                    simple:
+                      fields:
+                        - titre
+                        - collection
+                        - artiste
+                        - label
+                        - gencod
+                      query: goldman seul
+                    _links:
+                      - href: 'https://api.electre.com/v1.0/searches/79470710-0bee-11e8-8b77-d7d6eae80d31'
+                        rel: self
+                      - href: 'https://api.electre.com/v1.0/searches/79470710-0bee-11e8-8b77-d7d6eae80d31/results'
+                        rel: results
+                      - href: 'https://api.electre.com/v1.0/searches/79470710-0bee-11e8-8b77-d7d6eae80d31/facets'
+                        rel: facets
         '401':
           description: |-
             **Unauthorized**
 
             La requete n'est pas autorisée *(vérifier la validité du token OAuth/JWT)*.
-      description: Crée une nouvelle recherche (réutilisable)
+      description: 'Crée une nouvelle recherche *(réutilisable)*.'
       requestBody:
         content:
           application/json:
@@ -126,18 +148,31 @@ paths:
                 Cr:
                   type: string
             examples:
-              'Exemple: création de recherche':
+              Création de recherche livre:
                 value:
                   catalog: livre
                   simple:
                     fields:
                       - titre
                       - collection
-                      - auteur
-                      - éditeur
-                      - isbnEan
-                    query: québec
+                    query: voyage nuit
+                  isbnEans: null
+                  rebond: null
                   filters: null
+              Création de recherche musique:
+                value:
+                  catalog: musique
+                  simple:
+                    fields:
+                      - titre
+                      - collection
+                      - artiste
+                      - label
+                      - gencod
+                    query: goldman seul
+                  filters:
+                    artiste:
+                      - 14-8590
           application/xml:
             schema:
               type: object
@@ -212,7 +247,7 @@ paths:
                 type: object
                 properties: {}
               examples:
-                "Exemple: MAJ d'une recherche":
+                "Exemple: MAJ d'une recherche livre":
                   value:
                     id: '1'
                     catalog: livre
@@ -233,6 +268,27 @@ paths:
                         href: 'https://api.electre.com/v1.0/searches/1/results'
                       - rel: facets
                         href: 'https://api.electre.com/v1.0/searches/1/facets'
+                MAJ recherche musique:
+                  value:
+                    id: 79470710-0bee-11e8-8b77-d7d6eae80d31
+                    catalog: musique
+                    filters:
+                      artiste:
+                        - 14-8590
+                    simple:
+                      fields:
+                        - titre
+                        - collection
+                        - artiste
+                        - label
+                      query: goldman bébés
+                    _links:
+                      - href: 'https://api.electre.com/v1.0/searches/79470710-0bee-11e8-8b77-d7d6eae80d31'
+                        rel: self
+                      - href: 'https://api.electre.com/v1.0/searches/79470710-0bee-11e8-8b77-d7d6eae80d31/results'
+                        rel: results
+                      - href: 'https://api.electre.com/v1.0/searches/79470710-0bee-11e8-8b77-d7d6eae80d31/facets'
+                        rel: facets
             application/xhtml+xml:
               schema:
                 type: object
@@ -247,7 +303,35 @@ paths:
             schema:
               type: object
               properties: {}
-            examples: {}
+            examples:
+              'Exemple: MAJ recherche livre':
+                value:
+                  id: '8'
+                  catalog: livre
+                  simple:
+                    fields:
+                      - titre
+                      - collection
+                    query: voyage toscane
+                  isbnEans: null
+                  rebond: null
+                  filters:
+                    éditeur:
+                      - 0-748978
+              'Exemple: MAJ recherche musique':
+                value:
+                  id: 79470710-0bee-11e8-8b77-d7d6eae80d31
+                  catalog: musique
+                  filters:
+                    artiste:
+                      - 14-8590
+                  simple:
+                    fields:
+                      - titre
+                      - collection
+                      - artiste
+                      - label
+                    query: goldman bébés
       tags:
         - recherche
     delete:
@@ -268,7 +352,6 @@ paths:
       security:
         - idp-electre:
             - webapi
-      requestBody: {}
       tags:
         - recherche
   '/searches/{id}/results':
@@ -293,7 +376,7 @@ paths:
                 type: object
                 properties: {}
               examples:
-                'Exemple: résultats de recherche':
+                Résultats de recherche:
                   value:
                     _links:
                       - rel: self
@@ -1335,12 +1418,6 @@ paths:
         - idp-electre:
             - webapi
       requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties: {}
-            examples: {}
         description: ''
       parameters:
         - schema:
@@ -1368,13 +1445,13 @@ paths:
           description: |
             Paramètre de tri des resultats
         - schema:
-            type: number
+            type: integer
             default: '0'
           in: query
           name: page
           description: Numéro de page de résultat
         - schema:
-            type: number
+            type: integer
             default: '50'
           in: query
           name: itemsPerPage
