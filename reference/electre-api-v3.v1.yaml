@@ -2923,7 +2923,7 @@ paths:
         required: true
         description: EAN Cible
     put:
-      summary: ''
+      summary: "Ajout d'une notice au périmètre"
       operationId: put-clientData-ean
       responses:
         '200':
@@ -2956,13 +2956,17 @@ paths:
                   prixpromo: 11.5
                   stock: 5
         description: Il est possible de spécifier des options de gestion dans le corps de la requete
+      tags:
+        - init
     delete:
-      summary: ''
+      summary: "Retrait d'une notice du périmètre"
       operationId: delete-clientData-ean
       responses:
         '204':
           description: No Content
       description: "Retrait d'une notice du périmètre *(via son EAN)*"
+      tags:
+        - init
   /book/updates:
     get:
       summary: Liste des notices mise à jour
