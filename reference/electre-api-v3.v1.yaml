@@ -5,6 +5,7 @@ info:
   description: "Liste des enpoints de l'API Electre v3"
   contact:
     email: api@electre.com
+    name: Frederic Vergez
 servers:
   - url: 'https://api.electre.com/v1.0'
     description: Environnement de production
@@ -2885,6 +2886,31 @@ paths:
         - idp-electre:
             - webapi
       description: "Le résumé pour l'EAN cible."
+  '/eans/{ean}/coverCopy':
+    parameters:
+      - type: string
+        name: ean
+        in: path
+        required: true
+    get:
+      summary: Quatrième de couverture
+      tags:
+        - enrichissement
+      responses:
+        '200':
+          description: OK
+          content:
+            application/xml:
+              schema:
+                type: object
+                properties: {}
+              examples:
+                Quatrième de couverture XML: "xxx"
+      operationId: get-eans-ean-coverCopy
+      description: "Quatrième de couverture pour l'EAN donné"
+      security:
+        - idp-electre:
+            - webapi
 components:
   schemas: {}
   securitySchemes:

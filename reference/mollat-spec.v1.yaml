@@ -1,0 +1,790 @@
+openapi: 3.0.0
+info:
+  title: mollat-spec
+  version: '1.0'
+  description: "API spécifique au contenu Mollat. \n\nHybride entre les fonctions d'une v3, et du specifique (meme structure que la V3) pour le contenu mollat:\n* recherche\n* facettes\n* notices\n* images / couvertures\n"
+servers:
+  - url: 'https://api.electre.com/v1.0'
+    description: Environnement de production
+  - description: ''
+paths:
+  '/music/{id}':
+    parameters:
+      - type: string
+        name: id
+        in: path
+        required: true
+        description: Identifiant de la notice musique
+    get:
+      summary: 'Notice "Musique"'
+      tags:
+        - musique
+      responses: {}
+      operationId: get-music-id
+      description: "Recherche d'une notice \"Musique\" par identifiant de notice (pas EAN)"
+      security:
+        - idp-mollat:
+            - webapi
+  '/mollat/articles/{id}':
+    parameters:
+      - type: string
+        name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: "Identifiant de l'article Mollat"
+    get:
+      summary: Article par identifiant
+      tags:
+        - article
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              examples:
+                Article par ID:
+                  value:
+                    source:
+                      id: '1'
+                      libellé: Mollat
+                    titre: "Adeline Baldacchino - Michel Onfray ou L'intuition du monde"
+                    id: '117483'
+                    type:
+                      id: '12'
+                      libellé: Vidéos
+                    url: /videos/adeline-baldacchino-michel-onfray-ou-l-intuition-du-monde
+                    thèmes:
+                      - id: ICA
+                        libellé: Philosophie
+                    tags:
+                      - id: '1192'
+                        libellé: Onfray
+                      - id: '1251'
+                        libellé: Philosophie
+                    chapeau: "Adeline Baldacchino vous présente son ouvrage \"Michel Onfray ou L'intuition du monde\" aux éditions Le Passeur."
+                    texte: null
+                    sousTitre: null
+                    artiste: null
+                    lieu: null
+                    médias: []
+                    datePublicationDébut: '2016-07-31T16:42:48'
+                    datePublicationFin: '2116-01-01T00:00:00'
+                    dateDébut: null
+                    dateFin: null
+                    auteur: null
+                    eans:
+                      - ean: '9782368904220'
+                        titre: "Michel Onfray ou L'intuition du monde"
+                    _links:
+                      - rel: self
+                        href: 'https://api.electre.com/v1.0/mollat/articles/117483'
+      operationId: get-mollat-articles-id
+      description: Equivalent de la recherche rapide V3 pour les articles Mollat
+      security:
+        - idp-mollat:
+            - webapi
+    put:
+      summary: "Mise à jour d'un article"
+      operationId: put-mollat-articles-id
+      responses:
+        '200':
+          description: OK
+      description: "Mise à jour d'un article. \n\nA compléter: aucun exemple de retour, manque d'informations"
+      security:
+        - idp-mollat:
+            - webapi
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties: {}
+    delete:
+      summary: Effacer un article
+      operationId: delete-mollat-articles-id
+      responses:
+        '204':
+          description: |-
+            No Content
+
+            Pas de contenu/corps en cas de succès (status HTTP seul)
+      description: "Effacement d'un article Mollat"
+      security:
+        - idp-mollat:
+            - webapi
+  /mollat/articleSearches:
+    get:
+      summary: "Recherche d'articles"
+      tags:
+        - article
+        - recherche
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              examples:
+                Liste des recherches disponibles:
+                  value:
+                    list:
+                      - id: '1'
+                        simple:
+                          fields:
+                            - titre
+                            - chapeauTexte
+                          query: voyage nuit
+                        filters: null
+                        _links:
+                          - rel: self
+                            href: 'https://api.electre.com/v1.0/mollat/articleSearches/1'
+                          - rel: results
+                            href: 'https://api.electre.com/v1.0/mollat/articleSearches/1/results'
+                          - rel: facets
+                            href: 'https://api.electre.com/v1.0/mollat/articleSearches/1/facets'
+                      - id: '2'
+                        rebond:
+                          type: type
+                          id: '12'
+                        filters: null
+                        _links:
+                          - rel: self
+                            href: 'https://api.electre.com/v1.0/mollat/articleSearches/2'
+                          - rel: results
+                            href: 'https://api.electre.com/v1.0/mollat/articleSearches/2/results'
+                          - rel: facets
+                            href: 'https://api.electre.com/v1.0/mollat/articleSearches/2/facets'
+                    _links:
+                      - rel: self
+                        href: 'https://api.electre.com/v1.0/mollat/articleSearches'
+      operationId: get-mollat-articleSearches
+      description: |
+        Liste des recherches d'articles disponibles
+      security:
+        - idp-mollat:
+            - webapi
+    post:
+      summary: Gestion des recherches
+      operationId: post-mollat-articleSearches
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              examples:
+                "Résultat de création d'une requete":
+                  value:
+                    id: '3'
+                    simple:
+                      fields:
+                        - titre
+                        - chapeauTexte
+                      query: toscane
+                    filters: null
+                    _links:
+                      - rel: self
+                        href: 'https://api.electre.com/v1.0/mollat/articleSearches/3'
+                      - rel: results
+                        href: 'https://api.electre.com/v1.0/mollat/articleSearches/3/results'
+                      - rel: facets
+                        href: 'https://api.electre.com/v1.0/mollat/articleSearches/3/facets'
+      description: "Création d'une nouvelle recherche"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties: {}
+            examples:
+              Exemple de nouvelle requete:
+                value:
+                  simple:
+                    fields:
+                      - titre
+                      - chapeauTexte
+                    query: voyage nuit
+                  rebond: null
+                  filters: null
+  '/mollat/articleSearches/{id}':
+    parameters:
+      - type: string
+        name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Identifiant de la recherche
+    get:
+      summary: Recherche
+      tags:
+        - recherche
+        - article
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              examples:
+                "Paramètres d'une recherche existante":
+                  value:
+                    id: '1'
+                    simple:
+                      fields:
+                        - titre
+                        - chapeauTexte
+                      query: voyage nuit
+                    filters: null
+                    _links:
+                      - rel: self
+                        href: 'https://api.electre.com/v1.0/mollat/articleSearches/1'
+                      - rel: results
+                        href: 'https://api.electre.com/v1.0/mollat/articleSearches/1/results'
+                      - rel: facets
+                        href: 'https://api.electre.com/v1.0/mollat/articleSearches/1/facets'
+      operationId: get-mollat-articleSearches-id
+      description: 'Paramètres de la recherche *(existante)* via son identifiant.'
+      security:
+        - idp-mollat:
+            - webapi
+    put:
+      summary: ''
+      operationId: put-mollat-articleSearches-id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              examples:
+                Résultat MAJ rcherche:
+                  value:
+                    id: '1'
+                    rebond:
+                      type: type
+                      id: '12'
+                    filters: null
+                    _links:
+                      - rel: self
+                        href: 'https://api.electre.com/v1.0/mollat/articleSearches/1'
+                      - rel: results
+                        href: 'https://api.electre.com/v1.0/mollat/articleSearches/1/results'
+                      - rel: facets
+                        href: 'https://api.electre.com/v1.0/mollat/articleSearches/1/facets'
+      description: "Mise à jour d'une recherche existante."
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties: {}
+            examples:
+              MAJ recheche:
+                value:
+                  id: '1'
+                  simple: null
+                  rebond:
+                    type: type
+                    id: '12'
+                  filters: null
+        description: ''
+      tags:
+        - recherche
+        - article
+    delete:
+      summary: ''
+      operationId: delete-mollat-articleSearches-id
+      responses:
+        '204':
+          description: No Content
+      description: "Destruction d'une recherche pré-enregistrée"
+      security:
+        - idp-mollat:
+            - webapi
+  '/mollat/articleSearches/{id}/results':
+    parameters:
+      - type: string
+        name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Identifiant de la recherche
+    get:
+      summary: "Résultat d'une recherche"
+      tags: []
+      responses: {}
+      operationId: get-mollat-articleSearches-id-results
+      description: |-
+        Retourne une liste de résultats de recherche.
+
+        Pas d'exemple de retour: à compléter
+      parameters:
+        - schema:
+            type: string
+            enum:
+              - pertinenceAsc
+              - pertinenceDesc
+              - datePublicationAsc
+              - datePublicationDesc
+            default: pertinenceDesc
+          in: query
+          name: sort
+          description: Champ et type de tri à appliquer sur les résultats
+        - schema:
+            type: integer
+            default: '0'
+          in: query
+          name: page
+          description: Index de la page de résultat à afficher
+        - schema:
+            type: integer
+            maximum: 0
+            default: '50'
+          in: query
+          name: itemsPerPage
+          description: Nombre de résultats par page
+  '/mollat/articleSearches/{id}/results/{index}':
+    parameters:
+      - type: string
+        name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Identifiant de la recherche
+      - type: string
+        name: index
+        in: path
+        required: true
+        schema:
+          type: integer
+        description: Position du résultat recherché
+    get:
+      summary: Recherche par identifiant et position
+      tags:
+        - recherche
+        - article
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              examples:
+                Recherche positionnelle:
+                  value:
+                    source:
+                      id: '1'
+                      libellé: Mollat
+                    titre: "Adeline Baldacchino - Michel Onfray ou L'intuition du monde"
+                    id: '117483'
+                    type:
+                      id: '12'
+                      libellé: Vidéos
+                    url: /videos/adeline-baldacchino-michel-onfray-ou-l-intuition-du-monde
+                    thèmes:
+                      - id: ICA
+                        libellé: Philosophie
+                    tags:
+                      - id: '1192'
+                        libellé: Onfray
+                      - id: '1251'
+                        libellé: Philosophie
+                    chapeau: "Adeline Baldacchino vous présente son ouvrage \"Michel Onfray ou L'intuition du monde\" aux éditions Le Passeur."
+                    texte: null
+                    sousTitre: null
+                    artiste: null
+                    lieu: null
+                    médias: []
+                    datePublicationDébut: '2016-07-31T16:42:48'
+                    datePublicationFin: '2116-01-01T00:00:00'
+                    dateDébut: null
+                    dateFin: null
+                    auteur: null
+                    eans:
+                      - ean: '9782368904220'
+                        titre: "Michel Onfray ou L'intuition du monde"
+                    _links:
+                      - rel: self
+                        href: 'https://api.electre.com/v1.0/mollat/articleSearches/4e945826-6acf-11e6-91d2-a1b68b586599/results/3'
+                      - rel: article
+                        href: 'https://api.electre.com/v1.0/mollat/articles/117483'
+      operationId: get-mollat-articleSearches-id-results-index
+      parameters:
+        - schema:
+            type: string
+            enum:
+              - pertinenceAsc
+              - pertinenceDesc
+              - datePublicationAsc
+              - datePublicationDesc
+            default: pertinenceDesc
+          in: query
+          name: sort
+          description: Type et champ de tri à appliquer sur les résultats globaux de recherche avant de récupérer un élement.
+      security:
+        - idp-mollat:
+            - webapi
+  '/mollat/articleSearches/{id}/facets':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: identifiant de la recherche
+    get:
+      summary: Liste des facettes pour une recherche
+      tags:
+        - recherche
+        - facette
+        - sloppy
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              examples:
+                Liste de facettes:
+                  value:
+                    - name: source
+                      info:
+                        - code: '1'
+                          label: Mollat
+                          isChecked: false
+                          count: 50
+                          id: '1'
+                      _links: null
+                    - name: type
+                      info:
+                        - code: '12'
+                          label: Vidéos
+                          isChecked: false
+                          count: 15
+                          id: '12'
+                        - code: '13'
+                          label: Événements
+                          isChecked: false
+                          count: 13
+                          id: '13'
+                        - code: '10'
+                          label: Podcasts
+                          isChecked: false
+                          count: 9
+                          id: '10'
+                        - code: '9'
+                          label: Sélections de livres
+                          isChecked: false
+                          count: 6
+                          id: '9'
+                        - code: '5'
+                          label: Articles
+                          isChecked: false
+                          count: 3
+                          id: '5'
+                      _links: null
+                    - name: thèmeHiérarchie
+                      info:
+                        - code: IC
+                          label: Sciences humaines - Histoire
+                          isChecked: false
+                          isChildChecked: false
+                          count: 50
+                          id: '0:IC'
+                        - code: IL
+                          label: Littérature
+                          isChecked: false
+                          isChildChecked: false
+                          count: 2
+                          id: '0:IL'
+                        - code: IA
+                          label: Arts
+                          isChecked: false
+                          isChildChecked: false
+                          count: 1
+                          id: '0:IA'
+                      _links: null
+                    - name: tag
+                      info:
+                        - code: '12843'
+                          label: Conférence
+                          isChecked: false
+                          count: 12
+                          id: '12843'
+                        - code: '1192'
+                          label: Onfray
+                          isChecked: false
+                          count: 10
+                          id: '1192'
+                        - code: '1268'
+                          label: Rencontre
+                          isChecked: false
+                          count: 10
+                          id: '1268'
+                        - code: '1110'
+                          label: Politique
+                          isChecked: false
+                          count: 6
+                          id: '1110'
+                        - code: '1023'
+                          label: Rentrée littéraire
+                          isChecked: false
+                          count: 5
+                          id: '1023'
+                      _links: null
+                    - name: typeMédia
+                      info: []
+                      _links: null
+                    - name: datePublicationDébut
+                      info:
+                        - code: J7
+                          label: 7 jours
+                          isChecked: false
+                          count: 22
+                          id: J7
+                        - code: J15
+                          label: 7-15 jours
+                          isChecked: false
+                          count: 4
+                          id: J15
+                        - code: J30
+                          label: 15-30 jours
+                          isChecked: false
+                          count: 19
+                          id: J30
+                        - code: M3
+                          label: 1-3 mois
+                          isChecked: false
+                          count: 5
+                          id: M3
+                      _links: null
+                    - name: datePublicationFin
+                      info:
+                        - code: AP
+                          label: à paraître
+                          isChecked: false
+                          count: 50
+                          id: AP
+                      _links: null
+                    - name: dateDébut
+                      info:
+                        - code: AP
+                          label: à paraître
+                          isChecked: false
+                          count: 13
+                          id: AP
+                      _links: null
+                    - name: dateFin
+                      info:
+                        - code: AP
+                          label: à paraître
+                          isChecked: false
+                          count: 13
+                          id: AP
+                      _links: null
+      operationId: get-mollat-articleSearches-searchid-facets-facet
+      description: 'Recherche des facettes pour une recherche *(par identifiant)*'
+      security:
+        - idp-mollat:
+            - webapi
+      parameters:
+        - schema:
+            type: string
+            enum:
+              - ource
+              - type
+              - tag
+              - typeMédia
+              - datePublicationDébut
+              - datePublicationFin
+              - dateDébut
+              - dateFin
+          in: query
+          name: facet
+          description: Type de facette
+        - schema:
+            type: integer
+            default: '5'
+            maximum: 50
+          in: query
+          name: facetLimit
+          description: Nombre maximum de valeurs à retourner par facette
+  '/mollat/articleSearches/{id}/facets/{facet}':
+    parameters:
+      - type: string
+        name: facet
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Nom de la facette
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: |
+          Identifiant de la recherche
+    get:
+      summary: "Détail d'une facette dans une recherche"
+      tags:
+        - recherche
+        - article
+        - facette
+        - sloppy
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              examples:
+                "Détail d'une facette pour une recherche donnée":
+                  value:
+                    name: thèmeHiérarchie
+                    info:
+                      - code: IC
+                        label: Sciences humaines - Histoire
+                        isChecked: false
+                        isChildChecked: false
+                        hasChildren: true
+                        count: 50
+                        id: '0:IC'
+                      - code: IL
+                        label: Littérature
+                        isChecked: false
+                        isChildChecked: false
+                        hasChildren: true
+                        count: 2
+                        id: '0:IL'
+                      - code: IA
+                        label: Arts
+                        isChecked: false
+                        isChildChecked: false
+                        hasChildren: true
+                        count: 1
+                        id: '0:IA'
+                    _links: null
+      operationId: get-mollat-articleSearches-searchid-facets-facet
+      parameters:
+        - schema:
+            type: integer
+          in: query
+          name: max
+          description: Nombre maximum de valeur à afficher pour une facette
+        - schema:
+            type: boolean
+          in: query
+          name: sortOnLabel
+          description: "Indique si un tri doit etre effectué sur le libellé plutot que sur l'occurence"
+        - schema:
+            type: string
+          in: query
+          name: parentId
+          description: "Indentifiant de l'elément parent *(facette hiérarchique)*"
+      description: Donne des informations détaillées sur une facette et une recherche données
+  '/mollat/notices/{id}':
+    parameters:
+      - type: string
+        name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Identifiant de la notice Mollat
+    put:
+      summary: ''
+      operationId: put-mollat-notices-id
+      responses:
+        '200':
+          description: OK
+      description: |-
+        Gestion des notices Mollat.
+
+        Incomplet, manquent:
+        * des exemples de réponse et de corps de requetes
+        * les resultats (corps vide à confirmer)
+        * récupération de notice (manquant ou voulu) ?
+    delete:
+      summary: Gestion des notices
+      operationId: delete-mollat-notices-id
+      responses:
+        '204':
+          description: No Content
+      description: "Destruction d'une notice"
+  '/mollat/notices/{id}/record':
+    parameters:
+      - type: string
+        name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Identifiant de la notice Mollat
+    get:
+      summary: Detail facette pour une notice
+      tags:
+        - facette
+        - sloppy
+      responses: {}
+      operationId: get-mollat-notices-id-record
+      description: |-
+        Non detaillé dans la description d'API originale.
+
+        A tester avec les crédentials
+  '/mollat/images/{ean}':
+    parameters:
+      - type: string
+        name: ean
+        in: path
+        required: true
+        schema:
+          type: string
+        description: EAN cible
+    delete:
+      summary: Couverture
+      operationId: delete-mollat-images-ean
+      responses:
+        '204':
+          description: No Content
+      description: "Destruction de la couverture d'un EAN de notice Mollat"
+      security:
+        - idp-mollat:
+            - webapi
+      tags:
+        - enrichissement
+        - sloppy
+components:
+  schemas: {}
+  securitySchemes:
+    idp-mollat:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: 'https://idp2.electre.com/connect/token'
+          refreshUrl: ''
+          scopes:
+            webapi: ''
+      description: 'Securité via OAuth2 (flow: client_credentials)'
