@@ -1,0 +1,64 @@
+openapi: 3.0.0
+info:
+  title: blacklist
+  version: '1.0'
+  description: "Proposition d'implementation de la gestions des blacklists. "
+servers:
+  - url: 'https://api.electre.com/v1.0'
+    description: Environnement de production
+paths:
+  '/blacklist/{ean}':
+    parameters:
+      - type: string
+        name: ean
+        in: path
+        required: true
+        schema:
+          type: integer
+        description: EAN cible
+    get:
+      summary: "Vérificiation d'appartenance à la blacklist"
+      tags: []
+      responses:
+        '204':
+          description: "No Content: si l'EAN cible a été trouvé dans la blacklist"
+        '404':
+          description: "Not Found: Si l'EAN cible n'est pas trouvé dans la blacklist"
+      operationId: get-blacklist-ean
+      description: "Vérifie si l'EAN donné est présent dans la blacklist du client."
+      security:
+        - idp electre:
+            - webapi
+    put:
+      summary: "Ajout d'un élément à la blacklist"
+      operationId: put-blacklist-ean
+      responses:
+        '200':
+          description: OK
+      description: "Ajoute l'EAN cible à la blacklist"
+      security:
+        - idp electre:
+            - webapi
+    delete:
+      summary: "Retrait d'un élément de la blacklist"
+      operationId: delete-blacklist-ean
+      responses:
+        '200':
+          description: OK
+      security:
+        - idp electre:
+            - webapi
+      description: "Enlève l'EAN cible de la blacklist"
+      tags:
+        - blacklist
+        - beta
+components:
+  schemas: {}
+  securitySchemes:
+    idp electre:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: 'https://idp2.electre.com/connect/token'
+          scopes:
+            webapi: par défaut
