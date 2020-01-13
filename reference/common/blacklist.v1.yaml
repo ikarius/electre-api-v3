@@ -1,0 +1,77 @@
+openapi: 3.0.0
+info:
+  title: blacklist
+  version: '1.0'
+  description: |
+    Proposition d'implementation de la gestions des blacklists pour l'API V3.
+
+    Les fonctions définies pour la blacklist sont:
+    * l'ajout d'un EAN
+    * le retrait d'un EAN
+    * la vérification d'appartenance d'un EAN
+servers:
+  - url: 'https://api.electre.com/v1.0'
+    description: Environnement de production
+paths:
+  '/blacklist/{ean}':
+    parameters:
+      - type: string
+        name: ean
+        in: path
+        required: true
+        schema:
+          type: integer
+        description: EAN cible
+    get:
+      summary: "Vérificiation d'appartenance à la blacklist"
+      tags:
+        - blacklist
+        - beta
+      responses:
+        '204':
+          description: "No Content: si l'EAN cible a été trouvé dans la blacklist"
+        '404':
+          description: "Not Found: si l'EAN cible n'est pas trouvé dans la blacklist"
+      operationId: get-blacklist-ean
+      description: "Vérifie si l'EAN donné est présent dans la blacklist."
+      security:
+        - idp electre:
+            - webapi
+    put:
+      summary: "Ajout d'un élément à la blacklist"
+      operationId: put-blacklist-ean
+      responses:
+        '201':
+          description: "Created: Si l'ajout de l'EAN est un succés"
+      description: "Ajoute l'EAN cible à la blacklist."
+      security:
+        - idp electre:
+            - webapi
+      tags:
+        - blacklist
+        - beta
+    delete:
+      summary: "Retrait d'un élément de la blacklist"
+      operationId: delete-blacklist-ean
+      responses:
+        '200':
+          description: "OK: si l'EAN a été supprimé de la blacklist"
+        '404':
+          description: "Not Found: Si l'EAN ne peut pas etre retiré de la blacklist (non-présent)"
+      security:
+        - idp electre:
+            - webapi
+      description: "Enlève l'EAN cible de la blacklist."
+      tags:
+        - blacklist
+        - beta
+components:
+  schemas: {}
+  securitySchemes:
+    idp electre:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: 'https://idp2.electre.com/connect/token'
+          scopes:
+            webapi: par défaut

@@ -1,0 +1,221 @@
+openapi: 3.0.0
+info:
+  title: enrichissement
+  version: '1.0'
+  description: "API enrichissement: \n* listes des enrichissements\n* couverture\n* 4e couverture\n* prévisualisation / feuilletage\n* résumé\n* table des matières"
+servers:
+  - url: 'https://api.electre.com/v1.0'
+    description: Environnement de production
+paths:
+  '/eans/{ean}':
+    parameters:
+      - type: string
+        name: ean
+        in: path
+        required: true
+        schema:
+          type: integer
+        description: EAN cible
+    get:
+      summary: 'Liste des enrichissements [par EAN]'
+      tags:
+        - enrichissement
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              examples:
+                'Exemple: liste des enrichissements pour un EAN':
+                  value:
+                    _links:
+                      - href: 'https://electre3staging-api.bvdep.com/v1.0/eans/9782753550117/cover'
+                        rel: cover
+                      - href: 'https://electre3staging-api.bvdep.com/v1.0/eans/9782753550117/toc'
+                        rel: toc
+                      - href: 'https://electre3staging-api.bvdep.com/v1.0/eans/9782753550117/coverCopy'
+                        rel: coverCopy
+                      - href: 'https://electre3staging-api.bvdep.com/v1.0/eans/9782753550117/summary'
+                        rel: summary
+      operationId: get-eans-ean
+      security:
+        - idp-electre:
+            - webapi
+      description: "Retourne la liste des élements d'enrichissement dsponibles pour l'EAN donné."
+  '/eans/{ean}/cover':
+    parameters:
+      - type: string
+        name: ean
+        in: path
+        required: true
+        description: EAN cible
+        schema:
+          type: integer
+    get:
+      summary: Couverture pour un EAN
+      tags:
+        - enrichissement
+      responses:
+        '200':
+          description: |-
+            OK
+
+            Retourne le fichier JPEG de couverture
+          content:
+            application/xml:
+              schema:
+                type: object
+                properties: {}
+              examples:
+                'Exemple: quatrième de couverture pour un EAN (XML)': {}
+            application/json:
+              schema:
+                type: object
+                properties: {}
+        '404':
+          description: |
+            Not Found
+
+            Dans les cas ou:
+            * aucune couverture n'est disponible pour l'EAN
+            * l'EAN cible n'existe pas
+      operationId: get-eans-ean-cover
+      description: "Retourne la couverture d'un EAN donné (au format JPEG)"
+      security:
+        - idp-electre:
+            - webapi
+      parameters:
+        - schema:
+            type: integer
+            maximum: 0
+            default: '400'
+          in: query
+          name: maxWidth
+          description: "La largeur maximale de l'image (en pixels)"
+        - schema:
+            type: integer
+          in: query
+          name: maxHeight
+          description: "La hauteur maximale de l'image (en pixels)"
+  '/eans/{ean}/toc':
+    parameters:
+      - type: string
+        name: ean
+        in: path
+        required: true
+        description: EAN cible
+        schema:
+          type: integer
+    get:
+      summary: Table des matières pour un EAN
+      tags:
+        - enrichissement
+      responses:
+        '200':
+          description: OK
+      operationId: get-eans-ean-toc
+      description: 'Retourne la table des matières pour la notice '
+      security:
+        - idp-electre:
+            - webapi
+  '/eans/{ean}/preview':
+    parameters:
+      - type: string
+        name: ean
+        in: path
+        required: true
+        schema:
+          type: integer
+        description: EAN cible
+    get:
+      summary: Feuilletage pour un EAN
+      tags:
+        - enrichissement
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              examples:
+                'Exemple: feuilletage pour un EAN':
+                  value:
+                    _links:
+                      - href: 'https://electre-reader.bvdep.com/9782081394742'
+                        rel: preview
+      operationId: get-eans-ean-preview
+      security:
+        - idp-electre:
+            - webapi
+      description: "Retourne un lien (iframe) vers la visionneuse interne pour l'EAN donné."
+  '/eans/{ean}/summary':
+    parameters:
+      - type: string
+        name: ean
+        in: path
+        required: true
+        schema:
+          type: integer
+        description: EAN cible
+    get:
+      summary: Résumé pour un EAN
+      tags:
+        - enrichissement
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: object
+                properties: {}
+              examples:
+                'Exemple: resumé pour un EAN donné':
+                  value: "Serge Mouret, jeune prêtre installé en Provence, succombe à l'amour avec Albine, fille de paysan, après être devenu amnésique à cause d'extases mystiques."
+      operationId: get-eans-ean-summary
+      security:
+        - idp-electre:
+            - webapi
+      description: "Le résumé pour l'EAN cible."
+  '/eans/{ean}/coverCopy':
+    parameters:
+      - type: string
+        name: ean
+        in: path
+        required: true
+    get:
+      summary: Quatrième de couverture
+      tags:
+        - enrichissement
+      responses:
+        '200':
+          description: OK
+          content:
+            application/xml:
+              schema:
+                type: object
+                properties: {}
+              examples:
+                Quatrième de couverture XML: xxx
+      operationId: get-eans-ean-coverCopy
+      description: "Quatrième de couverture pour l'EAN donné"
+      security:
+        - idp-electre:
+            - webapi
+components:
+  schemas: {}
+  securitySchemes:
+    idp-electre:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: 'https://idp2.electre.com/connect/token'
+          refreshUrl: ''
+          scopes:
+            webapi: par défaut
+      description: ''
