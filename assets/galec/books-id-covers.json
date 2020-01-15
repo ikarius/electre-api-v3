@@ -1,1 +1,24 @@
-{"list":[{"id":"0-2335675","ean":"9782809710472","_links":[{"href":"https://electre3test-api.bvdep.com/v1.0/books/0-2335675/covers/9782809710472","rel":"cover"},{"href":"https://electre3test-api.bvdep.com/v1.0/books/0-2335675/covers/9782809710472?alt=media","rel":"media"}]}],"_links":[{"href":"https://electre3test-api.bvdep.com/v1.0/books/0-2335675/covers","rel":"self"}]}
+{
+    "_links": [
+        {
+            "href": "https://electre3test-api.bvdep.com/v1.0/books/0-2335675/covers",
+            "rel": "self"
+        }
+    ],
+    "list": [
+        {
+            "_links": [
+                {
+                    "href": "https://electre3test-api.bvdep.com/v1.0/books/0-2335675/covers/9782809710472",
+                    "rel": "cover"
+                },
+                {
+                    "href": "https://electre3test-api.bvdep.com/v1.0/books/0-2335675/covers/9782809710472?alt=media",
+                    "rel": "media"
+                }
+            ],
+            "ean": "9782809710472",
+            "id": "0-2335675"
+        }
+    ]
+}

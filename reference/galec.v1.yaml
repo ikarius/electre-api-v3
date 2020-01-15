@@ -1,0 +1,331 @@
+openapi: 3.0.0
+info:
+  title: galec
+  version: '1.0'
+servers:
+  - url: ' https://electre3test-api.bvdep.com/v1.0'
+    description: Environnement de test
+paths:
+  '/books/{id-or-ean}':
+    parameters:
+      - type: string
+        name: id-or-ean
+        in: path
+        required: true
+        schema:
+          type: string
+        description: identifiant Calipse ou EAN de la notice recherchée
+    get:
+      summary: "Détail d'une notice"
+      tags:
+        - notice
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              examples:
+                "Contenu d'une notice":
+                  $ref: ../assets/galec/books-id.json
+                  value:
+                    _links:
+                      - href: 'https://electre3test-api.bvdep.com/v1.0/books/0-2335675'
+                        rel: self
+                      - href: 'https://electre3test-api.bvdep.com/v1.0/books/0-2335675/covers/9782809710472?alt=media'
+                        rel: coverMedia
+                    argumentaire: |-
+                      En janvier 1950, le journaliste et écrivain
+                      Norman Lewis part pour Saigon, à l'époque où les trois pays de l'Indochine française se libèrent de la tutelle coloniale. Pris au coeur de la tourmente, ce n'est pourtant pas seulement en observateur des conflits qu'il est venu. Ce qui l'attire, au risque de sa vie, ce sont les derniers témoignages de traditions ancestrales, dont il pressent la prochaine disparition. Du Vietnam au Cambodge et au Laos, il raconte les modes de vie, les formes d'art et d'architecture, les pratiques religieuses et les coutumes des tribus les plus reculées. Avec une insatiable curiosité, tempérée par une nonchalance et un humour pince-sans-rire tout britanniques, qu'il sait nous faire partager.
+                    auteurs:
+                      - id: 0-1431375
+                        contribution: Auteur
+                        formeBib: 'Lewis, Norman'
+                        nationalité: Royaume-Uni
+                        nom: Norman Lewis
+                    catalog: livre
+                    collections:
+                      - id: 0-21198
+                        libellé: Picquier poche
+                    contributeurs:
+                      - id: 0-1666155
+                        contribution: Traducteur
+                        formeBib: 'Feldman-Garcia, Katherine'
+                        langue: anglais
+                        nom: Katherine Feldman-Garcia
+                    dateParution: '2014-10-21T00:00:00'
+                    description:
+                      épaisseur: 2.1
+                      hauteur: 17
+                      largeur: 11
+                      nbPages: 435
+                    disponibilité: manquant
+                    disponibilitéExacte:
+                      code: '4'
+                      libellé: Manque provisoirement
+                    distributeurs:
+                      - id: 0-413266
+                        gln: '3012902940000'
+                        nom: Harmonia mundi
+                    eansAnciennesEditions:
+                      - '9782877307062'
+                    eansCouverture:
+                      - '9782809710472'
+                    eansErronés: []
+                    eansFeuilletage: []
+                    eansJustes:
+                      - '9782809710472'
+                    eansNouvellesEditions: []
+                    eansUtilisés: []
+                    éditeurs:
+                      - id: 0-713738
+                        libellé: P. Picquier
+                    éditions:
+                      - Nouvelle présentation
+                    formatNumérique: ''
+                    formatsContenus: []
+                    galec_codelec:
+                      - code: '691211007'
+                        libellé: GEOGRAPHIE
+                    galec_rayonInternet:
+                      - code: 1040609
+                        libellé: Généralités Tourisme
+                    genres:
+                      - code: GDOC006
+                        libellé: Récits de voyages
+                      - code: GRPO000
+                        libellé: Rayon poche
+                    groupesDeTitres:
+                      - mentions:
+                          - Norman Lewis
+                          - "traduit de l'anglais par Katherine Feldman-Garcia"
+                        titres:
+                          - idOeuvre: 0-1950353
+                            libellé: La nuit du dragon
+                            soustitres:
+                              - voyage en Indochine
+                            type: simple
+                        type: principal
+                    id: 0-2335675
+                    isbns:
+                      - 2-8097-1047-3
+                      - 978-2-8097-1047-2
+                    poids: 272
+                    prix:
+                      devise: EUR
+                      hts:
+                        - 8.53
+                      ttc: 9
+                      tvas:
+                        - 5.5
+                    reliure: Broché
+                    scolaire: false
+                    séries: []
+                    source: electre
+                    supportEtendu:
+                      code: LIV
+                      libellé: Livre
+                    titre: 'La nuit du dragon : voyage en Indochine'
+                    titresContenus: []
+      operationId: notice
+      description: "Retourne le détail d'une notice dont l'identifiant Calipse **ou** l'EAN correspondent au paramètre `id-or-ean`. "
+      security:
+        - idp-test-electre:
+            - webapi
+  '/books/{id}/covers':
+    parameters:
+      - type: string
+        name: id
+        in: path
+        required: true
+        description: Identifiant de la notice
+    get:
+      summary: "Couvertures d'une notice"
+      tags:
+        - notice
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              examples:
+                Liste des couvertures:
+                  value:
+                    _links:
+                      - href: 'https://electre3test-api.bvdep.com/v1.0/books/0-2335675'
+                        rel: self
+                      - href: 'https://electre3test-api.bvdep.com/v1.0/books/0-2335675/covers/9782809710472?alt=media'
+                        rel: coverMedia
+                    argumentaire: |-
+                      En janvier 1950, le journaliste et écrivain
+                      Norman Lewis part pour Saigon, à l'époque où les trois pays de l'Indochine française se libèrent de la tutelle coloniale. Pris au coeur de la tourmente, ce n'est pourtant pas seulement en observateur des conflits qu'il est venu. Ce qui l'attire, au risque de sa vie, ce sont les derniers témoignages de traditions ancestrales, dont il pressent la prochaine disparition. Du Vietnam au Cambodge et au Laos, il raconte les modes de vie, les formes d'art et d'architecture, les pratiques religieuses et les coutumes des tribus les plus reculées. Avec une insatiable curiosité, tempérée par une nonchalance et un humour pince-sans-rire tout britanniques, qu'il sait nous faire partager.
+                    auteurs:
+                      - id: 0-1431375
+                        contribution: Auteur
+                        formeBib: 'Lewis, Norman'
+                        nationalité: Royaume-Uni
+                        nom: Norman Lewis
+                    catalog: livre
+                    collections:
+                      - id: 0-21198
+                        libellé: Picquier poche
+                    contributeurs:
+                      - id: 0-1666155
+                        contribution: Traducteur
+                        formeBib: 'Feldman-Garcia, Katherine'
+                        langue: anglais
+                        nom: Katherine Feldman-Garcia
+                    dateParution: '2014-10-21T00:00:00'
+                    description:
+                      épaisseur: 2.1
+                      hauteur: 17
+                      largeur: 11
+                      nbPages: 435
+                    disponibilité: manquant
+                    disponibilitéExacte:
+                      code: '4'
+                      libellé: Manque provisoirement
+                    distributeurs:
+                      - id: 0-413266
+                        gln: '3012902940000'
+                        nom: Harmonia mundi
+                    eansAnciennesEditions:
+                      - '9782877307062'
+                    eansCouverture:
+                      - '9782809710472'
+                    eansErronés: []
+                    eansFeuilletage: []
+                    eansJustes:
+                      - '9782809710472'
+                    eansNouvellesEditions: []
+                    eansUtilisés: []
+                    éditeurs:
+                      - id: 0-713738
+                        libellé: P. Picquier
+                    éditions:
+                      - Nouvelle présentation
+                    formatNumérique: ''
+                    formatsContenus: []
+                    galec_codelec:
+                      - code: '691211007'
+                        libellé: GEOGRAPHIE
+                    galec_rayonInternet:
+                      - code: 1040609
+                        libellé: Généralités Tourisme
+                    genres:
+                      - code: GDOC006
+                        libellé: Récits de voyages
+                      - code: GRPO000
+                        libellé: Rayon poche
+                    groupesDeTitres:
+                      - mentions:
+                          - Norman Lewis
+                          - "traduit de l'anglais par Katherine Feldman-Garcia"
+                        titres:
+                          - idOeuvre: 0-1950353
+                            libellé: La nuit du dragon
+                            soustitres:
+                              - voyage en Indochine
+                            type: simple
+                        type: principal
+                    id: 0-2335675
+                    isbns:
+                      - 2-8097-1047-3
+                      - 978-2-8097-1047-2
+                    poids: 272
+                    prix:
+                      devise: EUR
+                      hts:
+                        - 8.53
+                      ttc: 9
+                      tvas:
+                        - 5.5
+                    reliure: Broché
+                    scolaire: false
+                    séries: []
+                    source: electre
+                    supportEtendu:
+                      code: LIV
+                      libellé: Livre
+                    titre: 'La nuit du dragon : voyage en Indochine'
+                    titresContenus: []
+      operationId: get-books-id-covers
+      description: "Liste des couvertures d'une notice."
+      security:
+        - idp-electre:
+            - webapi
+  '/books/{id}/covers/{ean}':
+    parameters:
+      - type: string
+        name: id
+        in: path
+        required: true
+        schema:
+          type: number
+        description: Identifiant de la notice
+      - type: string
+        name: ean
+        in: path
+        required: true
+        schema:
+          type: string
+        description: EAN cible pour la notice choisie
+    get:
+      summary: "Couverture pour un EAN d'une notice"
+      tags:
+        - notice
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              examples:
+                Liste des couvertures par ID et EAN:
+                  value:
+                    _links:
+                      - href: 'https://electre3test-api.bvdep.com/v1.0/books/0-2335675/covers/9782809710472'
+                        rel: self
+                      - href: 'https://electre3test-api.bvdep.com/v1.0/books/0-2335675/covers/9782809710472?alt=media'
+                        rel: media
+                    ean: '9782809710472'
+                    id: 0-2335675
+      operationId: get-books-id-covers-ean
+      description: "Retourne la couverture pour une notice et un EAN donnés \n*(un ID notice pouvant référencer plusieurs EANs)*."
+      security:
+        - idp-electre:
+            - webapi
+      parameters:
+        - schema:
+            type: string
+            enum:
+              - media
+          in: query
+          name: alt
+          description: La valeur `media` permet de retourner la couverture au format JPEG
+        - schema:
+            type: integer
+          in: query
+          name: maxWidth
+          description: "Fixe la largeur maximale de l'image *(en pixels)*."
+        - schema:
+            type: integer
+          in: query
+          name: maxHeight
+          description: "Fixe la hauteur maximale de l'image *(en pixels)*."
+components:
+  schemas: {}
+  securitySchemes:
+    idp-electre-test:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: ' https://electre3test-idp.bvdep.com/v1.0connect/token'
+          refreshUrl: ''
+          scopes:
+            webapi: Par défaut
+      description: ''

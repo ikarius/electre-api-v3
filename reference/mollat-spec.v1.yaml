@@ -2,7 +2,7 @@ openapi: 3.0.0
 info:
   title: mollat-spec
   version: '1.0'
-  description: "API spécifique au contenu Mollat. \n\nHybride entre les fonctions d'une v3, et du specifique (meme structure que la V3) pour le contenu mollat:\n* recherche\n* facettes\n* notices\n* images / couvertures\n"
+  description: "API spécifique au contenu Mollat. \n\nHybride entre les fonctions d'une v3, et du specifique (meme structure que la V3) pour le contenu mollat:\n* recherche\n* facettes\n* notices\n* images / couvertures\n\nLes contenus éditoriaux sont **dépréciés** et ne seront pas implémenté par Electre (endpoints taggés `deprecated`).\n"
 servers:
   - url: 'https://api.electre.com/v1.0'
     description: Environnement de production
@@ -38,6 +38,7 @@ paths:
       summary: Article par identifiant
       tags:
         - article
+        - deprecated
       responses:
         '200':
           description: OK
@@ -123,6 +124,7 @@ paths:
       tags:
         - article
         - recherche
+        - deprecated
       responses:
         '200':
           description: OK
@@ -315,6 +317,10 @@ paths:
       security:
         - idp-mollat:
             - webapi
+      tags:
+        - recherche
+        - article
+        - deprecated
   '/mollat/articleSearches/{id}/results':
     parameters:
       - type: string
@@ -326,7 +332,10 @@ paths:
         description: Identifiant de la recherche
     get:
       summary: "Résultat d'une recherche"
-      tags: []
+      tags:
+        - recherche
+        - article
+        - deprecated
       responses: {}
       operationId: get-mollat-articleSearches-id-results
       description: |-
@@ -379,6 +388,7 @@ paths:
       tags:
         - recherche
         - article
+        - deprecated
       responses:
         '200':
           description: OK
@@ -456,6 +466,7 @@ paths:
         - recherche
         - facette
         - sloppy
+        - deprecated
       responses:
         '200':
           description: OK
@@ -652,6 +663,7 @@ paths:
         - article
         - facette
         - sloppy
+        - deprecated
       responses:
         '200':
           description: OK
@@ -715,18 +727,20 @@ paths:
           type: string
         description: Identifiant de la notice Mollat
     put:
-      summary: ''
+      summary: Mini-notices
       operationId: put-mollat-notices-id
       responses:
         '200':
           description: OK
       description: |-
-        Gestion des notices Mollat.
+        Gestion des (mini) notices Mollat.
 
         Incomplet, manquent:
         * des exemples de réponse et de corps de requetes
         * les resultats (corps vide à confirmer)
         * récupération de notice (manquant ou voulu) ?
+      tags:
+        - mini-notice
     delete:
       summary: Gestion des notices
       operationId: delete-mollat-notices-id
@@ -734,6 +748,8 @@ paths:
         '204':
           description: No Content
       description: "Destruction d'une notice"
+      tags:
+        - mini-notice
   '/mollat/notices/{id}/record':
     parameters:
       - type: string

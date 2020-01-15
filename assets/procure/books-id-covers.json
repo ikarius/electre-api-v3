@@ -1,0 +1,24 @@
+{
+  "_links": [
+    {
+      "href": "https://api.electre.com/v1.0/books/0-2335675/covers",
+      "rel": "self"
+    }
+  ],
+  "list": [
+    {
+      "_links": [
+        {
+          "href": "https://api.electre.com/v1.0/books/0-2335675/covers/9782809710472",
+          "rel": "cover"
+        },
+        {
+          "href": "https://api.electre.com/v1.0/books/0-2335675/covers/9782809710472?alt=media",
+          "rel": "media"
+        }
+      ],
+      "ean": "9782809710472",
+      "id": "0-2335675"
+    }
+  ]
+}

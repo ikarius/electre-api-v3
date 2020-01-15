@@ -1,0 +1,126 @@
+openapi: 3.0.0
+info:
+  title: notices
+  version: '1.0'
+  description: 'API V3, partie **Notices**'
+servers:
+  - url: 'https://electre3test-api.bvdep.com/v1.0'
+    description: Environnement de TEST
+paths:
+  '/books/{id-or-ean}':
+    parameters:
+      - type: string
+        name: id-or-ean
+        in: path
+        required: true
+        schema:
+          type: string
+        description: identifiant Calipse ou EAN de la notice recherchée
+    get:
+      summary: "Détail d'une notice"
+      tags:
+        - notice
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              examples: {}
+      operationId: notice
+      description: "Retourne le détail d'une notice dont l'identifiant Calipse **ou** l'EAN correspondent au paramètre `id-or-ean`. "
+      security:
+        - idp-test-electre:
+            - webapi
+  '/books/{id}/covers':
+    parameters:
+      - type: string
+        name: id
+        in: path
+        required: true
+        description: Identifiant de la notice
+    get:
+      summary: "Couvertures d'une notice"
+      tags:
+        - notice
+        - enrichissement
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              examples: {}
+      operationId: get-books-id-covers
+      description: "Liste des couvertures d'une notice."
+      security:
+        - idp-electre:
+            - webapi
+  '/books/{id}/covers/{ean}':
+    parameters:
+      - type: string
+        name: id
+        in: path
+        required: true
+        schema:
+          type: number
+        description: Identifiant de la notice
+      - type: string
+        name: ean
+        in: path
+        required: true
+        schema:
+          type: string
+        description: EAN cible pour la notice choisie
+    get:
+      summary: "Couverture pour un EAN d'une notice"
+      tags:
+        - notice
+        - enrichissement
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              examples: {}a
+      operationId: get-books-id-covers-ean
+      description: "Retourne la couverture pour une notice et un EAN donnés \n*(une notice pouvant référencer plusieurs EANs)*."
+      security:
+        - idp-electre:
+            - webapi
+      parameters:
+        - schema:
+            type: string
+            enum:
+              - media
+          in: query
+          name: alt
+          description: La valeur `media` permet de retourner la couverture au format JPEG
+        - schema:
+            type: integer
+          in: query
+          name: maxWidth
+          description: "Fixe la largeur maximale de l'image *(en pixels)*."
+        - schema:
+            type: integer
+          in: query
+          name: maxHeight
+          description: "Fixe la hauteur maximale de l'image *(en pixels)*."
+components:
+  schemas: {}
+  securitySchemes:
+    idp-test-electre:
+      type: oauth2
+      flows:
+        clientCredentials:
+          refreshUrl: ''
+          scopes:
+            webapi: Par défaut
+          tokenUrl: 'https://electre3test-idp.bvdep.com/connect/token'

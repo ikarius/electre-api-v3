@@ -1,0 +1,59 @@
+openapi: 3.0.0
+info:
+  title: electre-api-ng
+  version: '1.0'
+  description: Design API NG
+servers:
+  - url: 'https:/api.electre.ng'
+    description: Environnement de production
+paths:
+  /notices:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-notices
+      description: "Ce endpoint d'API permet de faire un pull paginé de toute les notices."
+      parameters:
+        - schema:
+            type: integer
+            default: '20'
+            maximum: 100
+          in: query
+          name: limit
+        - schema:
+            type: integer
+          in: query
+          name: offset
+  /notices/updated:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-notices-updated
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: from
+          description: date au format `YYYY-MM-DD` filtrant toutes les notices modifiées ou créés depuis cette date à minuit.
+        - schema:
+            type: string
+          in: query
+          name: to
+          description: date au format `YYYY-MM-DD` filtrant toutees les notices modifiées ou créées jusqu`à cette date (incluse)
+        - schema:
+            type: integer
+          in: query
+          name: last-n-days
+          description: "nombre entier positif indiquant la période de filtre, le jour courant n'est pas pris en compte dans le filtre (ex: `last-n-days=2` exécuté le 3 janvier 2020 filtre les notices modifiées le 1 et 2 janvier, en pratique équivalent à `from=2020-01-01`). \n\nC'est un paramètre de confort pour indiquer facilement les derniers jours sur lesquels le client souhaite avoir les notices modifiées.\n\nLes parameters `from` et `to` peuvent être utilisés de manière indépendante ou conjointe.\n\nAu moins un des paramètres `from`, `to` ou `last-n-days` est obligatoire."
+        - schema:
+            type: integer
+          in: query
+          name: limit
+        - schema:
+            type: integer
+          in: query
+          name: offset
+components:
+  schemas: {}

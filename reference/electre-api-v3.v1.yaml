@@ -2939,10 +2939,8 @@ paths:
                     prixttc: 12.45
                     prixpromo: 11.5
                     stock: 5
-      description: |+
+      description: |
         Ajout d'un EAN au périmètre.
-
-
       requestBody:
         content:
           application/json:

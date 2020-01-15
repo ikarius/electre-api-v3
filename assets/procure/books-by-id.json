@@ -1,0 +1,118 @@
+{
+  "procure": {
+    "prixTTC": "9,00",
+    "prixHT": "8,53",
+    "prixPromo": "0",
+    "codeDisponibilité": "NDI",
+    "codeFamille": "W-952",
+    "codeSousFamille": "P-610-75",
+    "codeSousSousFamille": "P-610-75-36",
+    "poids": "0",
+    "codeGenre": "W-1",
+    "typeProduit": "L",
+    "ventes": "0"
+  },
+  "clils": [
+    {
+      "code": "3640",
+      "libellé": "Littérature générale -- Récits de voyages"
+    }
+  ],
+  "isbns": [
+    "2-8097-1047-3",
+    "978-2-8097-1047-2"
+  ],
+  "reliure": "Broché",
+  "description": {
+    "nbPages": 435,
+    "largeur": 11,
+    "hauteur": 17,
+    "épaisseur": 2.1
+  },
+  "poids": 272,
+  "contributeurs": [
+    {
+      "contribution": "Traducteur",
+      "id": "0-1666155",
+      "nom": "Katherine Feldman-Garcia",
+      "formeBib": "Feldman-Garcia, Katherine",
+      "langue": "anglais"
+    }
+  ],
+  "quatrièmeDeCouverture": "En janvier 1950, le journaliste et écrivain\nNorman Lewis part pour Saigon, à l'époque où les trois pays de l'Indochine française se libèrent de la tutelle coloniale. Pris au coeur de la tourmente, ce n'est pourtant pas seulement en observateur des conflits qu'il est venu. Ce qui l'attire, au risque de sa vie, ce sont les derniers témoignages de traditions ancestrales, dont il pressent la prochaine disparition. Du Vietnam au Cambodge et au Laos, il raconte les modes de vie, les formes d'art et d'architecture, les pratiques religieuses et les coutumes des tribus les plus reculées. Avec une insatiable curiosité, tempérée par une nonchalance et un humour pince-sans-rire tout britanniques, qu'il sait nous faire partager.",
+  "publics": [
+    {
+      "code": "PG0100",
+      "libellé": "Grand public -- Tout public"
+    }
+  ],
+  "protection": "",
+  "droits": [],
+  "source": "electre",
+  "disponibilité": "manquant",
+  "titre": "La nuit du dragon : voyage en Indochine",
+  "auteurs": [
+    {
+      "contribution": "Auteur",
+      "id": "0-1431375",
+      "nom": "Norman Lewis",
+      "formeBib": "Lewis, Norman",
+      "nationalité": "Royaume-Uni"
+    }
+  ],
+  "eans": [
+    "9782809710472"
+  ],
+  "éditeurs": [
+    {
+      "id": "0-713738",
+      "libellé": "P. Picquier"
+    }
+  ],
+  "distributeurs": [
+    {
+      "id": "0-413266",
+      "gln": "3012902940000",
+      "nom": "Harmonia mundi"
+    }
+  ],
+  "dateParution": "2014-10-21T00:00:00",
+  "prix": {
+    "devise": "EUR",
+    "ttc": 9,
+    "hts": [
+      8.53
+    ],
+    "tvas": [
+      5.5
+    ]
+  },
+  "collections": [
+    {
+      "id": "0-21198",
+      "libellé": "Picquier poche"
+    }
+  ],
+  "séries": [],
+  "éditions": [
+    "Nouvelle présentation"
+  ],
+  "formatNumérique": "",
+  "résumé": "En 1949, l'auteur effectue un périple qui le mène de Saïgon jusqu'à l'extrême nord du Laos, en passant par les plateaux vietnamiens. Qu'il réalise une interview du roi du Cambodge ou montre les pratiques de la secte Cao-Dai, sa description, remplie d'un flegme et d'un humour typiquement britannique, montre une Indochine en pleine effervescence. ©Electre 2019",
+  "flagScolaire": false,
+  "eansCouverture": [
+    "9782809710472"
+  ],
+  "catalog": "livre",
+  "id": "0-2335675",
+  "_links": [
+    {
+      "rel": "self",
+      "href": "https://api.electre.com/v1.0/books/0-2335675"
+    },
+    {
+      "rel": "coverMedia",
+      "href": "https://api.electre.com/v1.0/books/0-2335675/covers/9782809710472?alt=media"
+    }
+  ]
+}

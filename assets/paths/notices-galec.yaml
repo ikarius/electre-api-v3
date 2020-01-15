@@ -1,0 +1,23 @@
+parameters:
+  - type: string
+    name: id-or-ean
+    in: path
+    required: true
+    schema:
+      type: string
+    description: identifiant Calipse ou EAN de la notice recherchée
+get:
+  summary: "Détail d'une notice"
+  tags:
+    - notice
+  responses:
+    '200':
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: object
+            properties: {}
+          examples: 
+            "Détail d'une notice":
+              $ref: '../galec/books-id.json'
