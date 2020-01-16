@@ -200,7 +200,7 @@ paths:
         - search
     put:
       summary: Update of a saved search
-      operationId: update-search
+      operationId: update-search-details
       responses:
         '200':
           description: |-
@@ -1437,7 +1437,7 @@ paths:
           type: integer
         description: Position du résultat dans la liste
     get:
-      summary: Résultat de recherche par index
+      summary: Search by index (single result)
       responses:
         '200':
           description: OK
@@ -1447,7 +1447,7 @@ paths:
                 type: object
                 properties: {}
               examples:
-                'Exemple: résultat de recherche par index':
+                Search by index:
                   value:
                     _links:
                       - rel: self
@@ -1825,13 +1825,14 @@ paths:
                         libellé: Manga-Manhwa
                     titre: Les misérables. Volume 4
                     titresContenus: []
-      operationId: get-searches-id-results-index
+      operationId: search-result-by-index
       description: |-
-        Retourne **le résultat** à la position `index` pour une recherche identifié par `id`.
+        Return **a single result** at position `index` for the search with identifier `ìd`.
 
-        Les paramètres de tri sont identiques à la recherche avec pagination.
+        Sorting parameters are identical to the ones of the search with navigation (`/searches/{id}`).
       security:
-        - idp-electre-staging: []
+        - idp-electre-staging:
+            - webapi
       parameters:
         - schema:
             type: string
@@ -1856,7 +1857,7 @@ paths:
             maxLength: 0
           in: query
           name: sort
-          description: Le critère de tri pour cette recherche
+          description: Sort criteria/field for this search
       tags:
         - search
   '/searches/{id}/facets':
@@ -1869,7 +1870,7 @@ paths:
           type: string
         description: Identifiant de la recherche
     get:
-      summary: "Liste des facettes d'une recherche"
+      summary: Facets of a search
       responses:
         '200':
           description: OK
@@ -1879,7 +1880,7 @@ paths:
                 type: object
                 properties: {}
               examples:
-                'Exemple: résultat de recherche par facette':
+                Facet search:
                   value:
                     - name: auteur
                       info:
@@ -1937,10 +1938,16 @@ paths:
                           count: 13
                           id: 0-794314
                       _links: null
-      operationId: recherche-facettes
-      description: La liste des facettes disponibles pour une recherche.
+      operationId: facets-search
+      description: |-
+        List of all facets available for search.
+
+        A facet is either:
+        * a list of authors
+        * a list of publishers
       security:
-        - idp-electre-staging: []
+        - idp-electre-staging:
+            - webapi
       parameters:
         - schema:
             type: string
@@ -1949,14 +1956,14 @@ paths:
               - éditeur
           in: query
           name: facet
-          description: Le type de la facette cible
+          description: Facet type
         - schema:
             type: integer
             maximum: 50
             default: '5'
           in: query
           name: facetLimit
-          description: Le nombre maximum de valeurs par facette
+          description: Maximum number of values by facet
       tags:
         - search
   '/searches/{id}/facets/{facet}':
@@ -1979,7 +1986,7 @@ paths:
             - éditeur
         description: Le type de la facette
     get:
-      summary: "Facette d'une recherche"
+      summary: Facet of a search (single result)
       responses:
         '200':
           description: OK
@@ -2084,7 +2091,7 @@ paths:
                         count: 1
                         id: 0-1350435
                     _links: null
-      operationId: recherche-facette
+      operationId: single-facet-search
       parameters:
         - schema:
             type: number
@@ -2098,7 +2105,7 @@ paths:
           in: query
           name: sortOnLabel
           description: 'Booléen pour indiquer si le tri doit être sur libellé, au lieu de par occurrence'
-      description: "Retourne les informations détaillées d'une facette (`auteur` ou `éditeur`) pour une recherche donnée (`ìd` identifiant de recherche)."
+      description: 'Returns detailed information of a facet *(author or publisher)* for the search `id` '
       security:
         - idp-electre-staging: []
       tags:
@@ -2128,11 +2135,30 @@ paths:
                     - Stupeur et tremblements / Amélie Nothomb
                     - Amélie Nothomb / Audiolib
         '':
-          description: ''
-      operationId: get-suggestions-simple
-      description: Liste de suggestions utilisable pour la completion des termes de recherche.
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              examples:
+                simple-suggestions:
+                  value:
+                    - Amélie Nothomb
+                    - Amélie Nothomb / Albin Michel
+                    - Pétronille / Amélie Nothomb
+                    - Barbe bleue / Amélie Nothomb
+                    - Amélie Nothomb / Le Livre de poche
+                    - Acide sulfurique / Amélie Nothomb
+                    - "Le Japon d'Amélie Nothomb / Amélie Nothomb"
+                    - Amélie Nothomb / Magnard
+                    - Stupeur et tremblements / Amélie Nothomb
+                    - Amélie Nothomb / Audiolib
+      operationId: suggestions-simple
+      description: 'A list of suggestions for a partial query *(completion of search terms for instance)*.'
       security:
-        - idp-electre-staging: []
+        - idp-electre-staging:
+            - webapi
       parameters:
         - schema:
             type: string
@@ -2143,18 +2169,18 @@ paths:
               - jeuxVidéo
           in: query
           name: catalog
-          description: Le catalogue cible
+          description: 'Catalog *(books, games, music...)*'
         - schema:
             type: string
           in: query
           name: text
-          description: Le texte de recherche
+          description: Search query
         - schema:
             type: number
             default: '10'
           in: query
           name: max
-          description: Le nombre maximal de résultats
+          description: Maximum number of results
       tags:
         - suggestions
   '/books/{id-or-ean}':
