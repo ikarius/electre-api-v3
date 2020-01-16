@@ -2,19 +2,18 @@ openapi: 3.0.0
 info:
   title: galec
   version: '1.0'
+  description: API V3 Galec - Environnement de test
 servers:
   - url: ' https://electre3test-api.bvdep.com/v1.0'
     description: Environnement de test
 paths:
-  '/books/{id-or-ean}':
+  '/books/{id}':
     parameters:
-      - type: string
-        name: id-or-ean
+      - schema:
+          type: string
+        name: id
         in: path
         required: true
-        schema:
-          type: string
-        description: identifiant Calipse ou EAN de la notice recherchée
     get:
       summary: "Détail d'une notice"
       tags:
@@ -29,7 +28,6 @@ paths:
                 properties: {}
               examples:
                 "Contenu d'une notice":
-                  $ref: ../assets/galec/books-id.json
                   value:
                     _links:
                       - href: 'https://electre3test-api.bvdep.com/v1.0/books/0-2335675'
@@ -132,7 +130,7 @@ paths:
       operationId: notice
       description: "Retourne le détail d'une notice dont l'identifiant Calipse **ou** l'EAN correspondent au paramètre `id-or-ean`. "
       security:
-        - idp-test-electre:
+        - idp-electre-test:
             - webapi
   '/books/{id}/covers':
     parameters:
@@ -141,6 +139,8 @@ paths:
         in: path
         required: true
         description: Identifiant de la notice
+        schema:
+          type: string
     get:
       summary: "Couvertures d'une notice"
       tags:
@@ -296,9 +296,6 @@ paths:
                     id: 0-2335675
       operationId: get-books-id-covers-ean
       description: "Retourne la couverture pour une notice et un EAN donnés \n*(un ID notice pouvant référencer plusieurs EANs)*."
-      security:
-        - idp-electre:
-            - webapi
       parameters:
         - schema:
             type: string
@@ -317,6 +314,9 @@ paths:
           in: query
           name: maxHeight
           description: "Fixe la hauteur maximale de l'image *(en pixels)*."
+      security:
+        - idp-electre-test:
+            - webapi
   /books/updates:
     get:
       summary: Mises à jour du périmètre
@@ -4704,14 +4704,20 @@ paths:
           description: |-
             Marque d'indexation pour la page suivante
             ex: `*;0-1004036`
+      security:
+        - idp-electre-test:
+            - webapi
     parameters: []
   /books/all:
     get:
-      summary: Your GET endpoint
+      summary: Ensemble du périmètre
       tags: []
       responses: {}
       operationId: get-books-all
       description: Liste toutes les notices du périmètre
+      security:
+        - idp-electre-test:
+            - webapi
 components:
   schemas: {}
   securitySchemes:
