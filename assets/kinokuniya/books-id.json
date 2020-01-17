@@ -1,0 +1,75 @@
+{
+  "id": "0-2335675",
+  "catalog": "livre",
+  "auteurs": [
+    {
+      "id": "0-1431375",
+      "contribution": "Auteur",
+      "formeBib": "Lewis, Norman",
+      "nationalité": "Royaume-Uni",
+      "nom": "Norman Lewis"
+    }
+  ],
+  "collections": [
+    {
+      "id": "0-21198",
+      "libellé": "Picquier poche"
+    }
+  ],
+  "dateParution": "2014-10-21T00:00:00",
+  "description": {
+    "épaisseur": 2.1,
+    "hauteur": 17,
+    "largeur": 11,
+    "nbPages": 435
+  },
+  "eans": [
+    "9782809710472"
+  ],
+  "eansCouverture": [
+    "9782809710472"
+  ],
+  "éditeurs": [
+    {
+      "id": "0-713738",
+      "libellé": "P. Picquier"
+    }
+  ],
+  "isbns": [
+    "2-8097-1047-3",
+    "978-2-8097-1047-2"
+  ],
+  "prix": {
+    "devise": "EUR",
+    "hts": [
+      8.53
+    ],
+    "ttc": 9,
+    "tvas": [
+      5.5
+    ]
+  },
+  "quatrièmeDeCouverture": "En janvier 1950, le journaliste et écrivain\nNorman Lewis part pour Saigon, à l'époque où les trois pays de l'Indochine française se libèrent de la tutelle coloniale. Pris au coeur de la tourmente, ce n'est pourtant pas seulement en observateur des conflits qu'il est venu. Ce qui l'attire, au risque de sa vie, ce sont les derniers témoignages de traditions ancestrales, dont il pressent la prochaine disparition. Du Vietnam au Cambodge et au Laos, il raconte les modes de vie, les formes d'art et d'architecture, les pratiques religieuses et les coutumes des tribus les plus reculées. Avec une insatiable curiosité, tempérée par une nonchalance et un humour pince-sans-rire tout britanniques, qu'il sait nous faire partager.",
+  "rayons": [
+    {
+      "code": "R0401",
+      "libellé": "Guides touristiques, voyages"
+    },
+    {
+      "code": "R1501",
+      "libellé": "Poche"
+    }
+  ],
+  "source": "electre",
+  "titre": "La nuit du dragon : voyage en Indochine",
+  "_links": [
+    {
+      "href": "https://electre3test-api.bvdep.com/v1.0/books/0-2335675",
+      "rel": "self"
+    },
+    {
+      "href": "https://electre3test-api.bvdep.com/v1.0/books/0-2335675/covers/9782809710472?alt=media",
+      "rel": "coverMedia"
+    }
+  ]
+}

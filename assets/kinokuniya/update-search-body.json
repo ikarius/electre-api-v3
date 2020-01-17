@@ -1,0 +1,5 @@
+{"catalog": "livre",
+ "simple": {"fields": ["titre","collection"],"query": "voyage toscane"},
+  "isbnEans": null,
+  "rebond": null,
+  "filters": null}

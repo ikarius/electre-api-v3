@@ -1,0 +1,276 @@
+openapi: 3.0.0
+info:
+  title: KINOKUNIYA - Electre API - V3
+  version: '1.0'
+  description: Endpoint list of Electre API (V3)
+  contact:
+    email: fvergez@electre.com
+    name: Frederic Vergez
+servers:
+  - url: 'https://electre3test-api.bvdep.com/v1.0'
+    description: TEST environment
+paths:
+  /suggestions/simple:
+    get:
+      summary: Suggestions
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              examples:
+                suggestions-simple:
+                  value:
+                    - Amélie Nothomb
+                    - Amélie Nothomb / Albin Michel
+                    - Pétronille / Amélie Nothomb
+                    - Barbe bleue / Amélie Nothomb
+                    - Amélie Nothomb / Le Livre de poche
+                    - Acide sulfurique / Amélie Nothomb
+                    - "Le Japon d'Amélie Nothomb / Amélie Nothomb"
+                    - Amélie Nothomb / Magnard
+                    - Stupeur et tremblements / Amélie Nothomb
+                    - Amélie Nothomb / Audiolib
+        '':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              examples:
+                simple-suggestions:
+                  value:
+                    - Amélie Nothomb
+                    - Amélie Nothomb / Albin Michel
+                    - Pétronille / Amélie Nothomb
+                    - Barbe bleue / Amélie Nothomb
+                    - Amélie Nothomb / Le Livre de poche
+                    - Acide sulfurique / Amélie Nothomb
+                    - "Le Japon d'Amélie Nothomb / Amélie Nothomb"
+                    - Amélie Nothomb / Magnard
+                    - Stupeur et tremblements / Amélie Nothomb
+                    - Amélie Nothomb / Audiolib
+      operationId: suggestions-simple
+      description: 'A list of suggestions for a partial query *(completion of search terms for instance)*.'
+      security:
+        - idp-electre-test:
+            - webapi
+      parameters:
+        - schema:
+            type: string
+            enum:
+              - livre
+              - musique
+              - film
+              - jeuxVidéo
+          in: query
+          name: catalog
+          description: 'Catalog *(books, games, music...)*'
+        - schema:
+            type: string
+          in: query
+          name: text
+          description: Search query
+        - schema:
+            type: number
+            default: '10'
+          in: query
+          name: max
+          description: Maximum number of results
+      tags:
+        - suggestions
+  '/books/{id-or-ean}':
+    parameters:
+      - type: string
+        name: id-or-ean
+        in: path
+        required: true
+        schema:
+          type: string
+        description: identifiant Calipse ou EAN de la notice recherchée
+    get:
+      summary: Details of a book
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              examples:
+                book-details:
+                  value:
+                    id: 0-2335675
+                    catalog: livre
+                    auteurs:
+                      - id: 0-1431375
+                        contribution: Auteur
+                        formeBib: 'Lewis, Norman'
+                        nationalité: Royaume-Uni
+                        nom: Norman Lewis
+                    collections:
+                      - id: 0-21198
+                        libellé: Picquier poche
+                    dateParution: '2014-10-21T00:00:00'
+                    description:
+                      épaisseur: 2.1
+                      hauteur: 17
+                      largeur: 11
+                      nbPages: 435
+                    eans:
+                      - '9782809710472'
+                    eansCouverture:
+                      - '9782809710472'
+                    éditeurs:
+                      - id: 0-713738
+                        libellé: P. Picquier
+                    isbns:
+                      - 2-8097-1047-3
+                      - 978-2-8097-1047-2
+                    prix:
+                      devise: EUR
+                      hts:
+                        - 8.53
+                      ttc: 9
+                      tvas:
+                        - 5.5
+                    quatrièmeDeCouverture: |-
+                      En janvier 1950, le journaliste et écrivain
+                      Norman Lewis part pour Saigon, à l'époque où les trois pays de l'Indochine française se libèrent de la tutelle coloniale. Pris au coeur de la tourmente, ce n'est pourtant pas seulement en observateur des conflits qu'il est venu. Ce qui l'attire, au risque de sa vie, ce sont les derniers témoignages de traditions ancestrales, dont il pressent la prochaine disparition. Du Vietnam au Cambodge et au Laos, il raconte les modes de vie, les formes d'art et d'architecture, les pratiques religieuses et les coutumes des tribus les plus reculées. Avec une insatiable curiosité, tempérée par une nonchalance et un humour pince-sans-rire tout britanniques, qu'il sait nous faire partager.
+                    rayons:
+                      - code: R0401
+                        libellé: 'Guides touristiques, voyages'
+                      - code: R1501
+                        libellé: Poche
+                    source: electre
+                    titre: 'La nuit du dragon : voyage en Indochine'
+                    _links:
+                      - href: 'https://electre3test-api.bvdep.com/v1.0/books/0-2335675'
+                        rel: self
+                      - href: 'https://electre3test-api.bvdep.com/v1.0/books/0-2335675/covers/9782809710472?alt=media'
+                        rel: coverMedia
+      operationId: book-details
+      description: 'Returns details of a book with its internal identifier **or** its EAN number as `id-or-ean` query parameter.'
+      security:
+        - idp-electre-test:
+            - webapi
+      tags:
+        - books
+  '/books/{id}/covers':
+    parameters:
+      - type: string
+        name: id
+        in: path
+        required: true
+        description: Identifiant de la notice
+    get:
+      summary: Covers of a book
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              examples:
+                covers-list:
+                  value:
+                    list:
+                      - id: 0-2335675
+                        ean: '9782809710472'
+                        _links:
+                          - href: 'https://electre3test-api.bvdep.com/v1.0/books/0-2335675/covers/9782809710472'
+                            rel: cover
+                          - href: 'https://electre3test-api.bvdep.com/v1.0/books/0-2335675/covers/9782809710472?alt=media'
+                            rel: media
+                    _links:
+                      - href: 'https://electre3test-api.bvdep.com/v1.0/books/0-2335675/covers'
+                        rel: self
+      operationId: get-books-id-covers
+      description: 'List of covers available for a book *(by EAN or internal ID)*.'
+      security:
+        - idp-electre-test:
+            - webapi
+      tags:
+        - books
+  '/books/{id}/covers/{ean}':
+    parameters:
+      - type: string
+        name: id
+        in: path
+        required: true
+        schema:
+          type: number
+        description: Identifiant de la notice
+      - type: string
+        name: ean
+        in: path
+        required: true
+        schema:
+          type: string
+        description: EAN cible pour la notice choisie
+    get:
+      summary: Covers of a book by ID and EAN
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              examples:
+                covers-list:
+                  value:
+                    id: 0-3009917
+                    ean: '9782221157848'
+                    _linkas:
+                      - rel: self
+                        href: 'https://api.electre.com/v1.0/books/0-3009917/covers/9782221157848'
+                      - rel: media
+                        href: 'https://api.electre.com/v1.0/books/0-3009917/covers/9782221157848?alt=media'
+      operationId: get-books-covers-by-id-and-ean
+      description: |-
+        Returns the cover of a book for the given EAN and ID.
+
+        *(a book can link to several EANs, hence several covers possible)*
+      security:
+        - idp-electre-test: []
+      parameters:
+        - schema:
+            type: string
+            enum:
+              - media
+          in: query
+          name: alt
+          description: 'If this parameter is given the `media` valiue, the response body will be an image *(in JPEG format)* '
+        - schema:
+            type: integer
+          in: query
+          name: maxWidth
+          description: 'Maximum width of image *(in pixels)*.'
+        - schema:
+            type: integer
+          in: query
+          name: maxHeight
+          description: 'Maximum height of image *(in pixels)*.'
+      tags:
+        - books
+components:
+  schemas: {}
+  securitySchemes:
+    idp-electre-test:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: 'https://electre3test-idp.bvdep.com/connect/token'
+          refreshUrl: ''
+          scopes:
+            webapi: default and mandatory scope
+      description: OAuth authentication platform

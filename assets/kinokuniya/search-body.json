@@ -1,0 +1,6 @@
+{"catalog": "livre",
+ "simple": {"fields": ["titre","collection"],
+            "query": "voyage nuit"},
+  "isbnEans": null,
+  "rebond": null,
+  "filters": null}
