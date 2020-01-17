@@ -241,7 +241,8 @@ paths:
 
         *(a book can link to several EANs, hence several covers possible)*
       security:
-        - idp-electre-test: []
+        - idp-electre-test:
+            - webapi
       parameters:
         - schema:
             type: string
