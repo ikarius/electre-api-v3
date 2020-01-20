@@ -10,79 +10,6 @@ servers:
   - url: 'https://electre3test-api.bvdep.com/v1.0'
     description: TEST environment
 paths:
-  /suggestions/simple:
-    get:
-      summary: Suggestions
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties: {}
-              examples:
-                suggestions-simple:
-                  value:
-                    - Amélie Nothomb
-                    - Amélie Nothomb / Albin Michel
-                    - Pétronille / Amélie Nothomb
-                    - Barbe bleue / Amélie Nothomb
-                    - Amélie Nothomb / Le Livre de poche
-                    - Acide sulfurique / Amélie Nothomb
-                    - "Le Japon d'Amélie Nothomb / Amélie Nothomb"
-                    - Amélie Nothomb / Magnard
-                    - Stupeur et tremblements / Amélie Nothomb
-                    - Amélie Nothomb / Audiolib
-        '':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties: {}
-              examples:
-                simple-suggestions:
-                  value:
-                    - Amélie Nothomb
-                    - Amélie Nothomb / Albin Michel
-                    - Pétronille / Amélie Nothomb
-                    - Barbe bleue / Amélie Nothomb
-                    - Amélie Nothomb / Le Livre de poche
-                    - Acide sulfurique / Amélie Nothomb
-                    - "Le Japon d'Amélie Nothomb / Amélie Nothomb"
-                    - Amélie Nothomb / Magnard
-                    - Stupeur et tremblements / Amélie Nothomb
-                    - Amélie Nothomb / Audiolib
-      operationId: suggestions-simple
-      description: 'A list of suggestions for a partial query *(completion of search terms for instance)*.'
-      security:
-        - idp-electre-test:
-            - webapi
-      parameters:
-        - schema:
-            type: string
-            enum:
-              - livre
-              - musique
-              - film
-              - jeuxVidéo
-          in: query
-          name: catalog
-          description: 'Catalog *(books, games, music...)*'
-        - schema:
-            type: string
-          in: query
-          name: text
-          description: Search query
-        - schema:
-            type: number
-            default: '10'
-          in: query
-          name: max
-          description: Maximum number of results
-      tags:
-        - suggestions
   '/books/{id-or-ean}':
     parameters:
       - type: string
@@ -91,7 +18,7 @@ paths:
         required: true
         schema:
           type: string
-        description: identifiant Calipse ou EAN de la notice recherchée
+        description: Internal identifier or EAN of the book
     get:
       summary: Details of a book
       responses:
@@ -167,7 +94,7 @@ paths:
         name: id
         in: path
         required: true
-        description: Identifiant de la notice
+        description: Identifier of the book
     get:
       summary: Covers of a book
       responses:
@@ -207,14 +134,14 @@ paths:
         required: true
         schema:
           type: number
-        description: Identifiant de la notice
+        description: Identifier of the book
       - type: string
         name: ean
         in: path
         required: true
         schema:
           type: string
-        description: EAN cible pour la notice choisie
+        description: EAN of the book
     get:
       summary: Covers of a book by ID and EAN
       responses:
