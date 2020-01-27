@@ -12566,3 +12566,13 @@ components:
           scopes:
             webapi: Scope standard pour les API BvD
       description: "Tous les appels aux ressources de l'API V3 nécessitent une identification OAuth2"
+    idp-electre-test:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: 'https://electre3test-idp.bvdep.com/connect/token'
+          refreshUrl: ''
+          scopes:
+            webapi: default
+      description: |
+        Identification environnement de TEST
