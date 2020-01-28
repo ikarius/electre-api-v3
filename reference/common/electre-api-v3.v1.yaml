@@ -2962,7 +2962,7 @@ paths:
       responses:
         '204':
           description: No Content
-      description: "Retrait d'une notice du périmètre *(via son EAN)*"
+      description: "Retrait d'une notice du périmètre préalablement ajouté via PUT *(et via son EAN)*"
       tags:
         - init
   /book/updates:
