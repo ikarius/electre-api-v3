@@ -79,10 +79,40 @@ paths:
           content:
             application/json:
               schema:
+                anyOf:
+                  - properties:
+                      codeDélai:
+                        type: string
+                      prixTTC:
+                        type: string
+                      prixHT:
+                        type: string
+                      prixPromo:
+                        type: string
+                      codeDisponibilité:
+                        type: string
+                      codeFamille:
+                        type: string
+                      codeSousFamille:
+                        type: string
+                      codeSousSousFamille:
+                        type: string
+                      poids:
+                        type: string
+                      codeGenre:
+                        type: string
+                      marqueurPPGP:
+                        type: string
+                      typeProduit:
+                        type: string
+                      ventes:
+                        type: string
                 type: object
-                properties: {}
+                properties:
+                  codeDélai:
+                    type: string
               examples:
-                Ajout de données de gestion:
+                add-client-data:
                   value:
                     prixttc: 12.45
                     prixpromo: 11.5
@@ -93,10 +123,37 @@ paths:
         content:
           application/json:
             schema:
+              anyOf:
+                - properties:
+                    codeDélai:
+                      type: string
+                    prixTTC:
+                      type: string
+                    prixHT:
+                      type: string
+                    prixPromo:
+                      type: string
+                    codeDisponibilité:
+                      type: string
+                    codeFamille:
+                      type: string
+                    codeSousFamille:
+                      type: string
+                    codeSousSousFamille:
+                      type: string
+                    poids:
+                      type: string
+                    codeGenre:
+                      type: string
+                    marqueurPPGP:
+                      type: string
+                    typeProduit:
+                      type: string
+                    ventes:
+                      type: string
               type: object
-              properties: {}
             examples:
-              client-data:
+              client-data-body:
                 value:
                   prixttc: 12.45
                   prixpromo: 11.5
