@@ -24,93 +24,7 @@ paths:
             application/json:
               schema:
                 type: object
-              examples:
-                Notice par identifiant/EAN:
-                  $ref: '#../assets/Procure/Procure/books-by-id.json'
-                  value:
-                    _links:
-                      - href: 'https://api.electre.com/v1.0/books/0-2335675'
-                        rel: self
-                      - href: 'https://api.electre.com/v1.0/books/0-2335675/covers/9782809710472?alt=media'
-                        rel: coverMedia
-                    auteurs:
-                      - contribution: Auteur
-                        formeBib: 'Lewis, Norman'
-                        id: 0-1431375
-                        nationalité: Royaume-Uni
-                        nom: Norman Lewis
-                    catalog: livre
-                    clils:
-                      - code: '3640'
-                        libellé: Littérature générale -- Récits de voyages
-                    collections:
-                      - id: 0-21198
-                        libellé: Picquier poche
-                    contributeurs:
-                      - contribution: Traducteur
-                        formeBib: 'Feldman-Garcia, Katherine'
-                        id: 0-1666155
-                        langue: anglais
-                        nom: Katherine Feldman-Garcia
-                    dateParution: '2014-10-21T00:00:00'
-                    description:
-                      hauteur: 17
-                      largeur: 11
-                      nbPages: 435
-                      épaisseur: 2.1
-                    disponibilité: manquant
-                    distributeurs:
-                      - gln: '3012902940000'
-                        id: 0-413266
-                        nom: Harmonia mundi
-                    droits: []
-                    eans:
-                      - '9782809710472'
-                    eansCouverture:
-                      - '9782809710472'
-                    flagScolaire: false
-                    formatNumérique: ''
-                    id: 0-2335675
-                    isbns:
-                      - 2-8097-1047-3
-                      - 978-2-8097-1047-2
-                    poids: 272
-                    prix:
-                      devise: EUR
-                      hts:
-                        - 8.53
-                      ttc: 9
-                      tvas:
-                        - 5.5
-                    procure:
-                      codeDisponibilité: NDI
-                      codeFamille: W-952
-                      codeGenre: W-1
-                      codeSousFamille: P-610-75
-                      codeSousSousFamille: P-610-75-36
-                      poids: '0'
-                      prixHT: '8,53'
-                      prixPromo: '0'
-                      prixTTC: '9,00'
-                      typeProduit: L
-                      ventes: '0'
-                    protection: ''
-                    publics:
-                      - code: PG0100
-                        libellé: Grand public -- Tout public
-                    quatrièmeDeCouverture: |-
-                      En janvier 1950, le journaliste et écrivain
-                      Norman Lewis part pour Saigon, à l'époque où les trois pays de l'Indochine française se libèrent de la tutelle coloniale. Pris au coeur de la tourmente, ce n'est pourtant pas seulement en observateur des conflits qu'il est venu. Ce qui l'attire, au risque de sa vie, ce sont les derniers témoignages de traditions ancestrales, dont il pressent la prochaine disparition. Du Vietnam au Cambodge et au Laos, il raconte les modes de vie, les formes d'art et d'architecture, les pratiques religieuses et les coutumes des tribus les plus reculées. Avec une insatiable curiosité, tempérée par une nonchalance et un humour pince-sans-rire tout britanniques, qu'il sait nous faire partager.
-                    reliure: Broché
-                    résumé: "En 1949, l'auteur effectue un périple qui le mène de Saïgon jusqu'à l'extrême nord du Laos, en passant par les plateaux vietnamiens. Qu'il réalise une interview du roi du Cambodge ou montre les pratiques de la secte Cao-Dai, sa description, remplie d'un flegme et d'un humour typiquement britannique, montre une Indochine en pleine effervescence. ©Electre 2019"
-                    source: electre
-                    séries: []
-                    titre: 'La nuit du dragon : voyage en Indochine'
-                    éditeurs:
-                      - id: 0-713738
-                        libellé: P. Picquier
-                    éditions:
-                      - Nouvelle présentation
+              examples: {}
       operationId: get-books-id-or-ean
       description: 'Recupére une notice via son identifiant **ou** son EAN.'
       security:
@@ -126,6 +40,7 @@ paths:
         name: id
         in: path
         required: true
+        description: EAN ou identifiant de la notice
     get:
       summary: Liste des couvertures pour une notice
       tags:
@@ -138,20 +53,7 @@ paths:
               schema:
                 type: object
                 properties: {}
-              examples:
-                Liste des couvertures disponibles pour un identifiant notice:
-                  value:
-                    _links:
-                      - href: 'https://api.electre.com/v1.0/books/0-2335675/covers'
-                        rel: self
-                    list:
-                      - _links:
-                          - href: 'https://api.electre.com/v1.0/books/0-2335675/covers/9782809710472'
-                            rel: cover
-                          - href: 'https://api.electre.com/v1.0/books/0-2335675/covers/9782809710472?alt=media'
-                            rel: media
-                        ean: '9782809710472'
-                        id: 0-2335675
+              examples: {}
       operationId: get-books-id-or-ean-covers
       description: |-
         Liste des couvertures disponibles pour un ID donné.
@@ -191,16 +93,7 @@ paths:
               schema:
                 type: object
                 properties: {}
-              examples:
-                Couverture par ID et EAN:
-                  value:
-                    _links:
-                      - href: 'https://api.electre.com/v1.0/books/0-2335675/covers/9782809710472'
-                        rel: self
-                      - href: 'https://api.electre.com/v1.0/books/0-2335675/covers/9782809710472?alt=media'
-                        rel: media
-                    ean: '9782809710472'
-                    id: 0-2335675
+              examples: {}
       operationId: get-books-id-covers-ean
       description: "Récupère la couverture pour la notice idenitifiée `id` et l'EAN."
       security:
@@ -236,7 +129,6 @@ paths:
       summary: "Vérificiation d'appartenance à la blacklist"
       tags:
         - blacklist
-        - beta
       responses:
         '204':
           description: "No Content: si l'EAN cible a été trouvé dans la blacklist"

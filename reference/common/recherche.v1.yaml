@@ -1,10 +1,12 @@
-openapi: '3.0.0'
+openapi: 3.0.0
 info:
   title: recherche
   version: '1.0'
+  description: ''
 servers:
-- url: http://localhost:3000
-paths: 
+  - url: 'https://api.electre.com/v1.0'
+    description: PROD
+paths:
   /searches:
     get:
       summary: Liste des recherches enregistrées
@@ -2140,3 +2142,11 @@ paths:
             - webapi
 components:
   schemas: {}
+  securitySchemes:
+    idp-electre:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: ''
+          refreshUrl: ''
+          scopes: {}

@@ -2,7 +2,7 @@ openapi: 3.0.0
 info:
   title: La Procure - API Web
   version: '1.0'
-  description: "# API Electre V3\n* \n"
+  description: " ##API web:\n* recherches\n* gestion des mini-notices"
 servers:
   - url: 'https://api.electre.com/v1.0'
     description: Environnement de production

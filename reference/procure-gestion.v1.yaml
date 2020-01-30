@@ -3,7 +3,12 @@ info:
   title: La Procure - API Gestion
   version: '1.0'
   description: |
-    # API Electre V3
+    ##API de gestion:
+    * gestion du périmètre La Procure
+    * gestion de la "blacklist"
+  contact:
+    name: Frédéric vergez
+    email: fvergez@electre.com
 servers:
   - url: 'https://api.electre.com/v1.0'
     description: Environnement de production
