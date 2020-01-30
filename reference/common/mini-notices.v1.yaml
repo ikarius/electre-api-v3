@@ -22,6 +22,8 @@ paths:
         '200':
           description: OK
       description: Mets à jour une nouvelle mini-notice avec ses données constituantes via son identifiant
+      tags:
+        - mini-notice
     delete:
       summary: "Destruction d'une mini-notice"
       operationId: delete-notices-id
@@ -29,6 +31,8 @@ paths:
         '200':
           description: OK
       description: Détruit une mini-notice par son identifiant.
+      tags:
+        - mini-notice
   '/notices/{id}/record':
     parameters:
       - type: string
@@ -41,7 +45,8 @@ paths:
           identifiant de la mini-notice
     get:
       summary: Détail de la mini-notice
-      tags: []
+      tags:
+        - mini-notice
       responses: {}
       operationId: get-notices-id-record
       description: Retourne le détail de la mini-notice par son identifiant

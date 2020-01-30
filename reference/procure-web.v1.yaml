@@ -2140,6 +2140,178 @@ paths:
       security:
         - idp-electre:
             - webapi
+  '/notices/{id}/record':
+    parameters:
+      - type: string
+        name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: |
+          identifiant de la mini-notice
+    get:
+      summary: Détail de la mini-notice
+      tags:
+        - mini-notice
+      responses: {}
+      operationId: get-notices-id-record
+      description: Retourne le détail de la mini-notice par son identifiant
+  '/notices/{id}':
+    parameters:
+      - type: string
+        name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Identifiant de la mini-notice
+    put:
+      summary: "Mise à jour d'une mini-notice"
+      operationId: put-notices-id
+      responses:
+        '200':
+          description: OK
+      description: Mets à jour une nouvelle mini-notice avec ses données constituantes via son identifiant
+      tags:
+        - mini-notice
+    delete:
+      summary: "Destruction d'une mini-notice"
+      operationId: delete-notices-id
+      responses:
+        '200':
+          description: OK
+      description: Détruit une mini-notice par son identifiant.
+      tags:
+        - mini-notice
+  '/books/{id}/covers/{ean}':
+    parameters:
+      - type: string
+        name: id
+        in: path
+        required: true
+        schema:
+          type: number
+        description: Identifiant de la notice
+      - type: string
+        name: ean
+        in: path
+        required: true
+        schema:
+          type: string
+        description: EAN cible pour la notice choisie
+    get:
+      summary: "Couverture pour un EAN d'une notice"
+      tags:
+        - notice
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              examples:
+                cover-links:
+                  value:
+                    id: 0-3009917
+                    ean: '9782221157848'
+                    _linkas:
+                      - rel: self
+                        href: 'https://api.electre.com/v1.0/books/0-3009917/covers/9782221157848'
+                      - rel: media
+                        href: 'https://api.electre.com/v1.0/books/0-3009917/covers/9782221157848?alt=media'
+      operationId: get-books-id-covers-ean
+      description: "Retourne la couverture pour une notice et un EAN donnés \n*(une notice pouvant référencer plusieurs EANs)*."
+      security:
+        - idp-electre:
+            - webapi
+      parameters:
+        - schema:
+            type: string
+            enum:
+              - media
+          in: query
+          name: alt
+          description: La valeur `media` permet de retourner la couverture au format JPEG
+        - schema:
+            type: integer
+          in: query
+          name: maxWidth
+          description: "Fixe la largeur maximale de l'image *(en pixels)*."
+        - schema:
+            type: integer
+          in: query
+          name: maxHeight
+          description: "Fixe la hauteur maximale de l'image *(en pixels)*."
+  '/books/{id}/covers':
+    parameters:
+      - type: string
+        name: id
+        in: path
+        required: true
+        description: Identifiant de la notice
+        schema:
+          type: string
+    get:
+      summary: "Couvertures d'une notice"
+      tags:
+        - notice
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              examples:
+                covers-list:
+                  value:
+                    list:
+                      - id: 0-3009917
+                        ean: '9782221157848'
+                        _links:
+                          - rel: self
+                            href: 'https://api.electre.com/v1.0/books/0-3009917/covers/9782221157848'
+                          - rel: media
+                            href: 'https://api.electre.com/v1.0/books/0-3009917/covers/9782221157848?alt=media'
+                    _links:
+                      - rel: self
+                        href: 'https://api.electre.com/v1.0/books/0-3009917/covers'
+      operationId: get-books-id-covers
+      description: "Liste des couvertures d'une notice."
+      security:
+        - idp-electre:
+            - webapi
+  '/books/{id-or-ean}':
+    parameters:
+      - type: string
+        name: id-or-ean
+        in: path
+        required: true
+        schema:
+          type: string
+        description: identifiant ou EAN de la notice recherchée
+    get:
+      summary: "Détail d'une notice"
+      tags:
+        - notice
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              examples: {}
+      operationId: notice
+      description: "Retourne le détail d'une notice dont l'identifiant Calipse **ou** l'EAN correspondent au paramètre `id-or-ean`. "
+      security:
+        - idp-electre:
+            - webapi
 components:
   schemas: {}
   securitySchemes:

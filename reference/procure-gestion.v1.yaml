@@ -3,8 +3,7 @@ info:
   title: La Procure - API Gestion
   version: '1.0'
   description: |
-    ##API de gestion:
-    * gestion du périmètre La Procure
+    * gestion du périmètre "La Procure"
     * gestion de la "blacklist"
   contact:
     name: Frédéric vergez
@@ -32,7 +31,7 @@ paths:
         '404':
           description: "Not Found: si l'EAN cible n'est pas trouvé dans la blacklist"
       operationId: get-blacklist-ean
-      description: "Vérifie si l'EAN donné est présent dans la blacklist."
+      description: "Vérifie si une notice avec l'EAN donné est présent dans la blacklist."
       security:
         - idp electre:
             - webapi
@@ -79,6 +78,9 @@ paths:
           content:
             application/json:
               schema:
+                properties:
+                  codeDélai:
+                    type: string
                 anyOf:
                   - properties:
                       codeDélai:
@@ -108,9 +110,6 @@ paths:
                       ventes:
                         type: string
                 type: object
-                properties:
-                  codeDélai:
-                    type: string
               examples:
                 add-client-data:
                   value:
@@ -118,7 +117,7 @@ paths:
                     prixpromo: 11.5
                     stock: 5
       description: |
-        Ajout d'un EAN au périmètre.
+        Ajout d'une notice au périmètre par son EAN.
       requestBody:
         content:
           application/json:
@@ -183,7 +182,6 @@ components:
       type: oauth2
       flows:
         clientCredentials:
-          tokenUrl: ''
-          refreshUrl: ''
+          tokenUrl: 'https://idp2.electre.com/connect/token'
           scopes:
             webapi: Scope OIDC obligatoire
