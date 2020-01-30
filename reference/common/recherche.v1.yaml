@@ -1,0 +1,2142 @@
+openapi: '3.0.0'
+info:
+  title: recherche
+  version: '1.0'
+servers:
+- url: http://localhost:3000
+paths: 
+  /searches:
+    get:
+      summary: Liste des recherches enregistrées
+      tags:
+        - recherche
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              examples:
+                'Exemple: Liste des recherches enregistrées':
+                  value:
+                    list:
+                      - id: '1'
+                        catalog: livre
+                        simple:
+                          fields:
+                            - titre
+                            - collection
+                          query: voyage nuit
+                        isbnEans: null
+                        rebond: null
+                        filters: null
+                        _links:
+                          - rel: self
+                            href: 'https://api.electre.com/v1.0/searches/1'
+                          - rel: results
+                            href: 'https://api.electre.com/v1.0/searches/1/results'
+                          - rel: facets
+                            href: 'https://api.electre.com/v1.0/searches/1/facets'
+                      - id: '2'
+                        catalog: livre
+                        simple: null
+                        isbnEans: null
+                        rebond:
+                          type: auteur
+                          id: 0-1198563
+                        filters: null
+                        _links:
+                          - rel: self
+                            href: 'https://api.electre.com/v1.0/searches/2'
+                          - rel: results
+                            href: 'https://api.electre.com/v1.0/searches/2/results'
+                          - rel: facets
+                            href: 'https://api.electre.com/v1.0/searches/2/facets'
+                    _links:
+                      - rel: self
+                        href: 'https://api.electre.com/v1.0/searches'
+        '401':
+          description: |-
+            **Unauthorized**
+
+            La requete n'est pas autorisée *(vérifier la validité du token OAuth/JWT)*.
+      operationId: liste-recherches
+      description: "Retourne la liste des recherches prealablement créées par l'utilisateur"
+      parameters:
+        - schema:
+            type: boolean
+            default: 'true'
+          in: query
+          name: hateoas
+          description: "Pas vraiment HATEOAS, mais ajoute une reference 'self' dans les liens (_links)"
+      security:
+        - idp-electre:
+            - webapi
+    post:
+      summary: "Création d'une nouvelle recherche"
+      operationId: creer-recherche
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              examples:
+                "Réponse: Création d'une recherche livre":
+                  value:
+                    id: '8'
+                    catalog: livre
+                    simple:
+                      fields:
+                        - titre
+                        - collection
+                      query: voyage nuit
+                    isbnEans: null
+                    rebond: null
+                    filters: null
+                    _links:
+                      - rel: self
+                        href: 'https://api.electre.com/api/v1/searches/8'
+                      - rel: results
+                        href: 'https://api.electre.com/api/v1/searches/8/results'
+                      - rel: facets
+                        href: 'https://api.electre.com/api/v1/searches/8/facets'
+                "Réponse: Création d'une recherche musique":
+                  value:
+                    id: 79470710-0bee-11e8-8b77-d7d6eae80d31
+                    catalog: musique
+                    filters:
+                      artiste:
+                        - 14-8590
+                    simple:
+                      fields:
+                        - titre
+                        - collection
+                        - artiste
+                        - label
+                        - gencod
+                      query: goldman seul
+                    _links:
+                      - href: 'https://api.electre.com/v1.0/searches/79470710-0bee-11e8-8b77-d7d6eae80d31'
+                        rel: self
+                      - href: 'https://api.electre.com/v1.0/searches/79470710-0bee-11e8-8b77-d7d6eae80d31/results'
+                        rel: results
+                      - href: 'https://api.electre.com/v1.0/searches/79470710-0bee-11e8-8b77-d7d6eae80d31/facets'
+                        rel: facets
+        '401':
+          description: |-
+            **Unauthorized**
+
+            La requete n'est pas autorisée *(vérifier la validité du token OAuth/JWT)*.
+      description: 'Crée une nouvelle recherche *(réutilisable)*.'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                Cr:
+                  type: string
+            examples:
+              Création de recherche livre:
+                value:
+                  catalog: livre
+                  simple:
+                    fields:
+                      - titre
+                      - collection
+                    query: voyage nuit
+                  isbnEans: null
+                  rebond: null
+                  filters: null
+              Création de recherche musique:
+                value:
+                  catalog: musique
+                  simple:
+                    fields:
+                      - titre
+                      - collection
+                      - artiste
+                      - label
+                      - gencod
+                    query: goldman seul
+                  filters:
+                    artiste:
+                      - 14-8590
+          application/xml:
+            schema:
+              type: object
+              properties: {}
+          multipart/form-data:
+            schema:
+              type: object
+              properties: {}
+        description: "Crée et stocke une nouvelle recherche pour l'utilisateur *(réutilisable via son ID)*."
+      security:
+        - idp-electre:
+            - webapi
+      tags:
+        - recherche
+  '/searches/{id}':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: Identifiant de la recherche précedemment créée
+    get:
+      summary: "Détail d'une recherche"
+      tags:
+        - recherche
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              examples:
+                "Exemple: détail d'une recherche existante":
+                  value:
+                    id: '1'
+                    catalog: livre
+                    simple:
+                      fields:
+                        - titre
+                        - collection
+                      query: voyage nuit
+                    isbnEans: null
+                    rebond: null
+                    filters: null
+                    _links:
+                      - rel: self
+                        href: 'https://api.electre.com/v1.0/searches/1'
+                      - rel: results
+                        href: 'https://api.electre.com/v1.0/searches/1/results'
+                      - rel: facets
+                        href: 'https://api.electre.com/v1.0/searches/1/facets'
+      operationId: details-recherche
+      security:
+        - idp-electre:
+            - webapi
+      description: "Retourne le descriptif d'une recherche précedemment créée par l'utilisateur *(**pas** le résultat de la recherche)*."
+    put:
+      summary: "M.A.J. d'une recherche"
+      operationId: maj-recherche
+      responses:
+        '200':
+          description: |-
+            **OK**
+
+            Si la MAJ s'est bien effectuée
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              examples:
+                "Exemple: MAJ d'une recherche livre":
+                  value:
+                    id: '1'
+                    catalog: livre
+                    simple:
+                      fields:
+                        - titre
+                        - collection
+                      query: voyage toscane
+                    isbnEans: null
+                    rebond: null
+                    filters:
+                      éditeur:
+                        - 0-748978
+                    _links:
+                      - rel: self
+                        href: 'https://api.electre.com/v1.0/searches/1'
+                      - rel: results
+                        href: 'https://api.electre.com/v1.0/searches/1/results'
+                      - rel: facets
+                        href: 'https://api.electre.com/v1.0/searches/1/facets'
+                MAJ recherche musique:
+                  value:
+                    id: 79470710-0bee-11e8-8b77-d7d6eae80d31
+                    catalog: musique
+                    filters:
+                      artiste:
+                        - 14-8590
+                    simple:
+                      fields:
+                        - titre
+                        - collection
+                        - artiste
+                        - label
+                      query: goldman bébés
+                    _links:
+                      - href: 'https://api.electre.com/v1.0/searches/79470710-0bee-11e8-8b77-d7d6eae80d31'
+                        rel: self
+                      - href: 'https://api.electre.com/v1.0/searches/79470710-0bee-11e8-8b77-d7d6eae80d31/results'
+                        rel: results
+                      - href: 'https://api.electre.com/v1.0/searches/79470710-0bee-11e8-8b77-d7d6eae80d31/facets'
+                        rel: facets
+            application/xhtml+xml:
+              schema:
+                type: object
+                properties: {}
+      description: Mettre à jour une recherche précédemment créée via son identifiant.
+      security:
+        - idp-electre:
+            - webapi
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties: {}
+            examples:
+              'Exemple: MAJ recherche livre':
+                value:
+                  id: '8'
+                  catalog: livre
+                  simple:
+                    fields:
+                      - titre
+                      - collection
+                    query: voyage toscane
+                  isbnEans: null
+                  rebond: null
+                  filters:
+                    éditeur:
+                      - 0-748978
+              'Exemple: MAJ recherche musique':
+                value:
+                  id: 79470710-0bee-11e8-8b77-d7d6eae80d31
+                  catalog: musique
+                  filters:
+                    artiste:
+                      - 14-8590
+                  simple:
+                    fields:
+                      - titre
+                      - collection
+                      - artiste
+                      - label
+                    query: goldman bébés
+      tags:
+        - recherche
+    delete:
+      summary: ''
+      operationId: effacer-recherche
+      responses:
+        '200':
+          description: |-
+            **OK**
+
+            Pas de corps de réponse si l'opération d'effacement s'est bien passée.
+        '404':
+          description: |-
+            **NOT FOUND**
+
+            Si aucune recherche ne correspond à l'identifiant fourni dans le chemin de l'appel
+      description: Effacer une recherche à partir de son identifiant
+      security:
+        - idp-electre:
+            - webapi
+      tags:
+        - recherche
+  '/searches/{id}/results':
+    parameters:
+      - type: string
+        name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Identifiant de la recherche
+    get:
+      summary: "Résultats d'une recherche"
+      tags:
+        - recherche
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              examples:
+                Résultats de recherche:
+                  value:
+                    _links:
+                      - rel: self
+                        href: 'https://api.electre.com/v1.0/searches/fc010417-15bb-11e9-a6f6-7390b425f9d7/results'
+                    index: 0
+                    list:
+                      - _links:
+                          - rel: self
+                            href: 'https://api.electre.com/v1.0/searches/fc010417-15bb-11e9-a6f6-7390b425f9d7/results/0'
+                          - rel: book
+                            href: 'https://api.electre.com/v1.0/books/0-3028381'
+                          - rel: coverMedia
+                            href: 'https://api.electre.com/v1.0/books/0-3028381/covers/9782368522226?alt=media'
+                        annéeEdition: 2016
+                        appelDuLivre_extra:
+                          thèmeClientDroit: []
+                          thèmeClientRayon:
+                            - code: BD0030
+                              libellé: Mangas
+                          thèmeClientSupport:
+                            - code: POC
+                              libellé: Poche
+                        auteurs:
+                          - contribution: Auteur
+                            id: 0-1151000
+                            nom: Takahiro Arai
+                            formeBib: 'Arai, Takahiro'
+                            nationalité: Japon
+                        biographie: "Takahiro Arai,\n cent cinquante ans ont passé depuis\n la première publication des Misérables.\n Cinéma, théâtre, dessin animé,\n manga, etc, les personnages des\n Misérables ont été mis en scène\n sous différentes formes.\r\n\r\nEt je pense bien qu'aucun autre\n personnage n'a fait l'objet d'autant\n de variantes que Marius.\r\n\r\nMoi aussi je suis impatient de voir quel\n genre de personnage je vais en faire."
+                        catalog: livre
+                        cdi_Adèle_rayons:
+                          - code: BD0802
+                            libellé: shonen
+                        cdi_supports:
+                          - code: LBR
+                            libellé: Livre broché
+                          - code: LPO
+                            libellé: Poche
+                        clilFel:
+                          code: '3795'
+                          libellé: Manga -- Shonen
+                        clils:
+                          - code: '3792'
+                            libellé: 'Bandes dessinées, comics, mangas -- Manga'
+                        clilsOuClilFel:
+                          - code: '3792'
+                            libellé: 'Bandes dessinées, comics, mangas -- Manga'
+                        club_rayons:
+                          - code: '1811'
+                            libellé: 'BD & Humour / Bandes dessinnées / Manga'
+                        collections: []
+                        collectionsIssn: []
+                        contributeurs:
+                          - contribution: Auteur adapté
+                            id: 0-1249337
+                            nom: Victor Hugo
+                            formeBib: 'Hugo, Victor'
+                            nationalité: France
+                          - contribution: Adaptateur
+                            id: 0-11408502
+                            nom: Yoshio Toyoshima
+                            formeBib: 'Toyoshima, Yoshio'
+                          - contribution: Traducteur
+                            id: 0-1164938
+                            nom: Nesrine Mezouane
+                            formeBib: 'Mezouane, Nesrine'
+                            langue: japonais
+                        cora_extra:
+                          stockGL: 1
+                          thèmeClientRayon:
+                            - code: BDH0504
+                              libellé: Autres Mangas
+                        dateParution: '2016-02-11T00:00:00'
+                        description:
+                          nbPages: 208
+                          largeur: 13
+                          hauteur: 19
+                          épaisseur: 1.7
+                          mentionIllustrations: illustrations en noir et blanc
+                        deweys:
+                          - code: '741.56'
+                            libellé: 'Arts graphiques et arts décoratifs -- Dessin et dessins -- Albums de bandes dessinées, romans graphiques, romans-photos, dessins humoristiques, caricatures, bandes dessinées -- Bandes dessinées, dessins humoristiques, caricatures'
+                        deweysAbrégées:
+                          - code: '741'
+                            libellé: Arts graphiques et arts décoratifs -- Dessin et dessins
+                        disponibilité: disponible
+                        disponibilitéExacte:
+                          code: '1'
+                          libellé: Disponible
+                        distributeurs:
+                          - id: 0-439028
+                            gln: '3012166100000'
+                            nom: Interforum
+                        droits: []
+                        eans:
+                          - '9782368522226'
+                        eansAnciennesEditions: []
+                        eansCouverture:
+                          - '9782368522226'
+                        eansErronés: []
+                        eansFeuilletage: []
+                        eansNouvellesEditions: []
+                        éditeurs:
+                          - id: 0-749013
+                            libellé: Kurokawa
+                        éditeursLieuPublication:
+                          - lieuPublication: Paris
+                            id: 0-749013
+                            libellé: Kurokawa
+                        éditions: []
+                        fel_codeRetour: '1'
+                        fel_impressionALaDemande: false
+                        flagFiction: true
+                        flagScolaire: false
+                        formatNumérique: ''
+                        formatsContenus: []
+                        genres:
+                          - code: GRPO000
+                            libellé: Rayon poche
+                        groupesDeTitres:
+                          - type: ensemble
+                            titres:
+                              - type: simple
+                                libellé: Les misérables
+                            mentions:
+                              - Takahiro Arai
+                              - "d'après Victor Hugo"
+                              - adaptation Yoshio Toyoshima
+                              - traduit du japonais par Nesrine Mezouane
+                            numéro: '4'
+                        groupesDeTitresIdOeuvre:
+                          - type: ensemble
+                            titres:
+                              - type: simple
+                                libellé: Les misérables
+                                idOeuvre: 0-6434
+                            mentions:
+                              - Takahiro Arai
+                              - "d'après Victor Hugo"
+                              - adaptation Yoshio Toyoshima
+                              - traduit du japonais par Nesrine Mezouane
+                            numéro: '4'
+                        groupesDeTitresIdOeuvreSaufTcNonPrio:
+                          - type: ensemble
+                            titres:
+                              - type: simple
+                                libellé: Les misérables
+                                idOeuvre: 0-6434
+                            mentions:
+                              - Takahiro Arai
+                              - "d'après Victor Hugo"
+                              - adaptation Yoshio Toyoshima
+                              - traduit du japonais par Nesrine Mezouane
+                            numéro: '4'
+                        id: 0-3028381
+                        isbns:
+                          - 2-36852-222-0
+                          - 978-2-36852-222-6
+                        isbns10Erronés: []
+                        isbns13Erronés: []
+                        isbnsErronés: []
+                        librest_extra:
+                          thèmeClientRayon:
+                            - code: T090400P0L00
+                              libellé: ''
+                        mollat_extra:
+                          origine: null
+                          thèmeClientRayon:
+                            - code: LB4B
+                              libellé: Shônen
+                          thèmeClientSupport:
+                            - code: LBR
+                              libellé: Livre broché
+                            - code: LPO
+                              libellé: Livre poche
+                          thèmeClientWeb:
+                            - code: IBA4A
+                              libellé: Manga général
+                            - code: IBA4B
+                              libellé: Shônen
+                          thèmeClientRayonCalculé:
+                            - code: LB4B
+                              libellé: Shônen
+                          thèmeClientSupportCalculé:
+                            - code: LBR
+                              libellé: Livre broché
+                            - code: LPO
+                              libellé: Livre poche
+                          thèmeClientWebCalculé:
+                            - code: IBA4A
+                              libellé: Manga général
+                            - code: IBA4B
+                              libellé: Shônen
+                          stock: 1
+                          codeDélai: DI
+                          ventesWeb: 0
+                          ventesCollectivité: 0
+                          ventesComptant: 1
+                        nbPages: 208
+                        oeuvre:
+                          id: 0-2134439
+                          type: secondaire
+                          catégorie: simple
+                          titre: (Néant)
+                          genres:
+                            - Traduction
+                          contributeurs:
+                            - id: 0-1151000
+                              contribution:
+                                code: A01
+                                libellé: Auteur
+                              formeBib: 'Arai, Takahiro (1982-....)'
+                            - id: 0-1249337
+                              contribution:
+                                code: A06
+                                libellé: Auteur adapté
+                              formeBib: 'Hugo, Victor (1802-1885)'
+                            - id: 0-11408502
+                              contribution:
+                                code: A07
+                                libellé: Adaptateur
+                              formeBib: 'Toyoshima, Yoshio'
+                            - id: 0-1164938
+                              contribution:
+                                code: A05
+                                libellé: Traducteur
+                              formeBib: 'Mezouane, Nesrine'
+                          oeuvreMaître:
+                            id: 0-2134438
+                            type: princeps
+                            catégorie: simple
+                            titre: (Néant)
+                            genres: []
+                            contributeurs:
+                              - id: 0-1151000
+                                contribution:
+                                  code: A01
+                                  libellé: Auteur
+                                formeBib: 'Arai, Takahiro (1982-....)'
+                              - id: 0-1249337
+                                contribution:
+                                  code: A06
+                                  libellé: Auteur adapté
+                                formeBib: 'Hugo, Victor (1802-1885)'
+                              - id: 0-11408502
+                                contribution:
+                                  code: A07
+                                  libellé: Adaptateur
+                                formeBib: 'Toyoshima, Yoshio'
+                          oeuvresRegroupésPar:
+                            - id: 0-2067126
+                              type: secondaire
+                              catégorie: opp
+                              titre: Les misérables
+                              genres:
+                                - Traduction
+                              contributeurs:
+                                - id: 0-1151000
+                                  contribution:
+                                    code: A01
+                                    libellé: Auteur
+                                  formeBib: 'Arai, Takahiro (1982-....)'
+                                - id: 0-1249337
+                                  contribution:
+                                    code: A06
+                                    libellé: Auteur adapté
+                                  formeBib: 'Hugo, Victor (1802-1885)'
+                                - id: 0-11408502
+                                  contribution:
+                                    code: A07
+                                    libellé: Adaptateur
+                                  formeBib: 'Toyoshima, Yoshio'
+                                - id: 0-1164938
+                                  contribution:
+                                    code: A05
+                                    libellé: Traducteur
+                                  formeBib: 'Mezouane, Nesrine'
+                              oeuvreMaître:
+                                id: 0-2067125
+                                type: dérivée
+                                catégorie: opp
+                                titre: Les misérables
+                                genres:
+                                  - Autres contributions
+                                  - Adaptation pour la BD
+                                  - Œuvre modifiée
+                                  - Œuvre modifiée avec illustrations
+                                contributeurs:
+                                  - id: 0-1151000
+                                    contribution:
+                                      code: A01
+                                      libellé: Auteur
+                                    formeBib: 'Arai, Takahiro (1982-....)'
+                                  - id: 0-1249337
+                                    contribution:
+                                      code: A06
+                                      libellé: Auteur adapté
+                                    formeBib: 'Hugo, Victor (1802-1885)'
+                                  - id: 0-11408502
+                                    contribution:
+                                      code: A07
+                                      libellé: Adaptateur
+                                    formeBib: 'Toyoshima, Yoshio'
+                                oeuvreMaître:
+                                  id: 0-6434
+                                  type: princeps
+                                  catégorie: opp
+                                  titre: Les misérables
+                                  genres: []
+                                  contributeurs:
+                                    - id: 0-1249337
+                                      contribution:
+                                        code: A01
+                                        libellé: Auteur
+                                      formeBib: 'Hugo, Victor (1802-1885)'
+                                  oeuvreIdentique:
+                                    id: 0-793
+                                    type: princeps
+                                    catégorie: simple
+                                    titre: Les misérables
+                                    genres: []
+                                    contributeurs:
+                                      - id: 0-1249337
+                                        contribution:
+                                          code: A01
+                                          libellé: Auteur
+                                        formeBib: 'Hugo, Victor (1802-1885)'
+                        poids: 194
+                        présentationEditeur: ''
+                        prix:
+                          devise: EUR
+                          ttc: 7.65
+                          hts:
+                            - 7.25
+                          tvas:
+                            - 5.5
+                        procure_extra:
+                          prixTTC: '7,65'
+                          prixHT: '7,25'
+                          prixPromo: '0'
+                          codeDisponibilité: D8
+                          codeFamille: P-690
+                          codeSousFamille: P-690-10
+                          codeSousSousFamille: P-690-10-80
+                          poids: '0'
+                          codeGenre: W-1
+                          typeProduit: L
+                          ventes: '0'
+                        protection: ''
+                        publics:
+                          - code: PJ0402
+                            libellé: Jeunesse -- Bons lecteurs (à partir de 9 ans) -- A partir de 10 ans
+                        quatrièmeDeCouverture: ''
+                        quatrièmeDeCouvertureSinonRésumé: 'Jean Valjean se rend à Montfermeil, la veille de Noël, afin de libérer Cosette et ainsi de tenir la promesse faite à Fantine. ©Electre 2019'
+                        rayons:
+                          - code: R0303
+                            libellé: Mangas
+                          - code: R1501
+                            libellé: Poche
+                        reliure: Broché sous jaquette
+                        résumé: 'Jean Valjean se rend à Montfermeil, la veille de Noël, afin de libérer Cosette et ainsi de tenir la promesse faite à Fantine. ©Electre 2019'
+                        séries:
+                          - id: 0-328272
+                            libellé: 'Les misérables, n° 4'
+                        sériesIssn:
+                          - id: 0-328272
+                            libellé: 'Les misérables, n° 4'
+                        source: electre
+                        themaCatégories:
+                          - code: XAM
+                            libellé: Manga et bande dessinée de style asiatique
+                        themaQualificatifs:
+                          - code: 5AL
+                            libellé: A partir de 10 ans
+                        themas:
+                          - code: XAM
+                            libellé: Manga et bande dessinée de style asiatique
+                        thèmes:
+                          - code: T090400
+                            libellé: Manga-Manhwa
+                        titre: Les misérables. Volume 4
+                        titresContenus: []
+                      - _links:
+                          - rel: self
+                            href: 'https://api.electre.com/v1.0/searches/fc010417-15bb-11e9-a6f6-7390b425f9d7/results/1'
+                          - rel: book
+                            href: 'https://api.electre.com/v1.0/books/0-3291188'
+                          - rel: coverMedia
+                            href: 'https://api.electre.com/v1.0/books/0-3291188/covers/9782368522622?alt=media'
+                        annéeEdition: 2016
+                        appelDuLivre_extra:
+                          thèmeClientDroit: []
+                          thèmeClientRayon:
+                            - code: BD0030
+                              libellé: Mangas
+                          thèmeClientSupport:
+                            - code: POC
+                              libellé: Poche
+                        auteurs:
+                          - contribution: Auteur
+                            id: 0-1151000
+                            nom: Takahiro Arai
+                            formeBib: 'Arai, Takahiro'
+                            nationalité: Japon
+                        biographie: ''
+                        catalog: livre
+                        cdi_Adèle_rayons:
+                          - code: BD0802
+                            libellé: shonen
+                        cdi_supports:
+                          - code: LBR
+                            libellé: Livre broché
+                          - code: LPO
+                            libellé: Poche
+                        clilFel:
+                          code: '3795'
+                          libellé: Manga -- Shonen
+                        clils:
+                          - code: '3792'
+                            libellé: 'Bandes dessinées, comics, mangas -- Manga'
+                        clilsOuClilFel:
+                          - code: '3792'
+                            libellé: 'Bandes dessinées, comics, mangas -- Manga'
+                        club_rayons:
+                          - code: '1811'
+                            libellé: 'BD & Humour / Bandes dessinnées / Manga'
+                        collections: []
+                        collectionsIssn: []
+                        contributeurs:
+                          - contribution: Auteur adapté
+                            id: 0-1249337
+                            nom: Victor Hugo
+                            formeBib: 'Hugo, Victor'
+                            nationalité: France
+                          - contribution: Adaptateur
+                            id: 0-11408502
+                            nom: Yoshio Toyoshima
+                            formeBib: 'Toyoshima, Yoshio'
+                          - contribution: Traducteur
+                            id: 0-1164938
+                            nom: Nesrine Mezouane
+                            formeBib: 'Mezouane, Nesrine'
+                            langue: japonais
+                        cora_extra:
+                          stockGL: 1
+                          thèmeClientRayon:
+                            - code: BDH0504
+                              libellé: Autres Mangas
+                        dateParution: '2016-05-12T00:00:00'
+                        description:
+                          nbPages: 205
+                          largeur: 13
+                          hauteur: 19
+                          épaisseur: 1.8
+                          mentionIllustrations: illustrations en noir et en couleur
+                        deweys:
+                          - code: '741.56'
+                            libellé: 'Arts graphiques et arts décoratifs -- Dessin et dessins -- Albums de bandes dessinées, romans graphiques, romans-photos, dessins humoristiques, caricatures, bandes dessinées -- Bandes dessinées, dessins humoristiques, caricatures'
+                        deweysAbrégées:
+                          - code: '741'
+                            libellé: Arts graphiques et arts décoratifs -- Dessin et dessins
+                        disponibilité: disponible
+                        disponibilitéExacte:
+                          code: '1'
+                          libellé: Disponible
+                        distributeurs:
+                          - id: 0-439028
+                            gln: '3012166100000'
+                            nom: Interforum
+                        droits: []
+                        eans:
+                          - '9782368522622'
+                        eansAnciennesEditions: []
+                        eansCouverture:
+                          - '9782368522622'
+                        eansErronés: []
+                        eansFeuilletage: []
+                        eansNouvellesEditions: []
+                        éditeurs:
+                          - id: 0-749013
+                            libellé: Kurokawa
+                        éditeursLieuPublication:
+                          - lieuPublication: Paris
+                            id: 0-749013
+                            libellé: Kurokawa
+                        éditions: []
+                        fel_codeRetour: '1'
+                        fel_impressionALaDemande: false
+                        flagFiction: true
+                        flagScolaire: false
+                        formatNumérique: ''
+                        formatsContenus: []
+                        genres:
+                          - code: GRPO000
+                            libellé: Rayon poche
+                        groupesDeTitres:
+                          - type: ensemble
+                            titres:
+                              - type: simple
+                                libellé: Les misérables
+                            mentions:
+                              - Takahiro Arai
+                              - "d'après Victor Hugo"
+                              - adaptation Yoshio Toyoshima
+                              - traduit du japonais par Nesrine Mezouane
+                            numéro: '5'
+                        groupesDeTitresIdOeuvre:
+                          - type: ensemble
+                            titres:
+                              - type: simple
+                                libellé: Les misérables
+                                idOeuvre: 0-6434
+                            mentions:
+                              - Takahiro Arai
+                              - "d'après Victor Hugo"
+                              - adaptation Yoshio Toyoshima
+                              - traduit du japonais par Nesrine Mezouane
+                            numéro: '5'
+                        groupesDeTitresIdOeuvreSaufTcNonPrio:
+                          - type: ensemble
+                            titres:
+                              - type: simple
+                                libellé: Les misérables
+                                idOeuvre: 0-6434
+                            mentions:
+                              - Takahiro Arai
+                              - "d'après Victor Hugo"
+                              - adaptation Yoshio Toyoshima
+                              - traduit du japonais par Nesrine Mezouane
+                            numéro: '5'
+                        id: 0-3291188
+                        isbns:
+                          - 2-36852-262-X
+                          - 978-2-36852-262-2
+                        isbns10Erronés: []
+                        isbns13Erronés: []
+                        isbnsErronés: []
+                        librest_extra:
+                          thèmeClientRayon:
+                            - code: T090400P0L00
+                              libellé: ''
+                        mollat_extra:
+                          origine: null
+                          thèmeClientRayon:
+                            - code: LB4B
+                              libellé: Shônen
+                          thèmeClientSupport:
+                            - code: LBR
+                              libellé: Livre broché
+                            - code: LPO
+                              libellé: Livre poche
+                          thèmeClientWeb:
+                            - code: IBA4A
+                              libellé: Manga général
+                            - code: IBA4B
+                              libellé: Shônen
+                          thèmeClientRayonCalculé:
+                            - code: LB4B
+                              libellé: Shônen
+                          thèmeClientSupportCalculé:
+                            - code: LBR
+                              libellé: Livre broché
+                            - code: LPO
+                              libellé: Livre poche
+                          thèmeClientWebCalculé:
+                            - code: IBA4A
+                              libellé: Manga général
+                            - code: IBA4B
+                              libellé: Shônen
+                          stock: 1
+                          codeDélai: DI
+                          ventesWeb: 0
+                          ventesCollectivité: 0
+                          ventesComptant: 1
+                        nbPages: 205
+                        oeuvre:
+                          id: 0-2181039
+                          type: secondaire
+                          catégorie: simple
+                          titre: (Néant)
+                          genres:
+                            - Traduction
+                          contributeurs:
+                            - id: 0-1151000
+                              contribution:
+                                code: A01
+                                libellé: Auteur
+                              formeBib: 'Arai, Takahiro (1982-....)'
+                            - id: 0-1249337
+                              contribution:
+                                code: A06
+                                libellé: Auteur adapté
+                              formeBib: 'Hugo, Victor (1802-1885)'
+                            - id: 0-11408502
+                              contribution:
+                                code: A07
+                                libellé: Adaptateur
+                              formeBib: 'Toyoshima, Yoshio'
+                            - id: 0-1164938
+                              contribution:
+                                code: A05
+                                libellé: Traducteur
+                              formeBib: 'Mezouane, Nesrine'
+                          oeuvreMaître:
+                            id: 0-2181038
+                            type: princeps
+                            catégorie: simple
+                            titre: (Néant)
+                            genres: []
+                            contributeurs:
+                              - id: 0-1151000
+                                contribution:
+                                  code: A01
+                                  libellé: Auteur
+                                formeBib: 'Arai, Takahiro (1982-....)'
+                              - id: 0-1249337
+                                contribution:
+                                  code: A06
+                                  libellé: Auteur adapté
+                                formeBib: 'Hugo, Victor (1802-1885)'
+                              - id: 0-11408502
+                                contribution:
+                                  code: A07
+                                  libellé: Adaptateur
+                                formeBib: 'Toyoshima, Yoshio'
+                          oeuvresRegroupésPar:
+                            - id: 0-2067126
+                              type: secondaire
+                              catégorie: opp
+                              titre: Les misérables
+                              genres:
+                                - Traduction
+                              contributeurs:
+                                - id: 0-1151000
+                                  contribution:
+                                    code: A01
+                                    libellé: Auteur
+                                  formeBib: 'Arai, Takahiro (1982-....)'
+                                - id: 0-1249337
+                                  contribution:
+                                    code: A06
+                                    libellé: Auteur adapté
+                                  formeBib: 'Hugo, Victor (1802-1885)'
+                                - id: 0-11408502
+                                  contribution:
+                                    code: A07
+                                    libellé: Adaptateur
+                                  formeBib: 'Toyoshima, Yoshio'
+                                - id: 0-1164938
+                                  contribution:
+                                    code: A05
+                                    libellé: Traducteur
+                                  formeBib: 'Mezouane, Nesrine'
+                              oeuvreMaître:
+                                id: 0-2067125
+                                type: dérivée
+                                catégorie: opp
+                                titre: Les misérables
+                                genres:
+                                  - Autres contributions
+                                  - Adaptation pour la BD
+                                  - Œuvre modifiée
+                                  - Œuvre modifiée avec illustrations
+                                contributeurs:
+                                  - id: 0-1151000
+                                    contribution:
+                                      code: A01
+                                      libellé: Auteur
+                                    formeBib: 'Arai, Takahiro (1982-....)'
+                                  - id: 0-1249337
+                                    contribution:
+                                      code: A06
+                                      libellé: Auteur adapté
+                                    formeBib: 'Hugo, Victor (1802-1885)'
+                                  - id: 0-11408502
+                                    contribution:
+                                      code: A07
+                                      libellé: Adaptateur
+                                    formeBib: 'Toyoshima, Yoshio'
+                                oeuvreMaître:
+                                  id: 0-6434
+                                  type: princeps
+                                  catégorie: opp
+                                  titre: Les misérables
+                                  genres: []
+                                  contributeurs:
+                                    - id: 0-1249337
+                                      contribution:
+                                        code: A01
+                                        libellé: Auteur
+                                      formeBib: 'Hugo, Victor (1802-1885)'
+                                  oeuvreIdentique:
+                                    id: 0-793
+                                    type: princeps
+                                    catégorie: simple
+                                    titre: Les misérables
+                                    genres: []
+                                    contributeurs:
+                                      - id: 0-1249337
+                                        contribution:
+                                          code: A01
+                                          libellé: Auteur
+                                        formeBib: 'Hugo, Victor (1802-1885)'
+                        poids: 195
+                        présentationEditeur: ''
+                        prix:
+                          devise: EUR
+                          ttc: 7.65
+                          hts:
+                            - 7.25
+                          tvas:
+                            - 5.5
+                        protection: ''
+                        publics:
+                          - code: PJ0402
+                            libellé: Jeunesse -- Bons lecteurs (à partir de 9 ans) -- A partir de 10 ans
+                        quatrièmeDeCouverture: ''
+                        quatrièmeDeCouvertureSinonRésumé: 'Jean et Cosette sont sortis du couvent depuis quelques années. Cosette attire le regard des hommes, notamment celui de Marius. ©Electre 2019'
+                        rayons:
+                          - code: R0303
+                            libellé: Mangas
+                          - code: R1501
+                            libellé: Poche
+                        reliure: Broché sous jaquette
+                        résumé: 'Jean et Cosette sont sortis du couvent depuis quelques années. Cosette attire le regard des hommes, notamment celui de Marius. ©Electre 2019'
+                        séries:
+                          - id: 0-328272
+                            libellé: 'Les misérables, n° 5'
+                        sériesIssn:
+                          - id: 0-328272
+                            libellé: 'Les misérables, n° 5'
+                        source: electre
+                        themaCatégories:
+                          - code: XAM
+                            libellé: Manga et bande dessinée de style asiatique
+                        themaQualificatifs:
+                          - code: 5AL
+                            libellé: A partir de 10 ans
+                        themas:
+                          - code: XAM
+                            libellé: Manga et bande dessinée de style asiatique
+                        thèmes:
+                          - code: T090400
+                            libellé: Manga-Manhwa
+                        titre: Les misérables. Volume 5
+                        titresContenus: []
+                      - _links:
+                          - rel: self
+                            href: 'https://api.electre.com/v1.0/searches/fc010417-15bb-11e9-a6f6-7390b425f9d7/results/2'
+                          - rel: book
+                            href: 'https://api.electre.com/v1.0/books/0-2945081'
+                          - rel: coverMedia
+                            href: 'https://api.electre.com/v1.0/books/0-2945081/covers/9782910867492?alt=media'
+                        annéeEdition: 2016
+                        appelDuLivre_extra:
+                          thèmeClientDroit: []
+                          thèmeClientRayon:
+                            - code: BD0010
+                              libellé: Albums
+                          thèmeClientSupport:
+                            - code: GFO
+                              libellé: Grand Format
+                        auteurs:
+                          - contribution: Auteur
+                            id: 0-1278474
+                            nom: Christian Maucler
+                            formeBib: 'Maucler, Christian'
+                            nationalité: France
+                          - contribution: Auteur
+                            id: 0-11306717
+                            nom: Yann Chavarot
+                            formeBib: 'Chavarot, Yann'
+                            nationalité: France
+                        biographie: ''
+                        catalog: livre
+                        cdi_Adèle_rayons:
+                          - code: BD0208
+                            libellé: adaptations littéraires bd adulte
+                        cdi_supports:
+                          - code: GFO
+                            libellé: Grand format
+                          - code: LRE
+                            libellé: Livre relié
+                        clilFel:
+                          code: '3780'
+                          libellé: Bandes dessinées de genre -- Histoire
+                        clils:
+                          - code: '3775'
+                            libellé: 'Bandes dessinées de genre -- Documentaire (culture, société, littérature, adaptation littéraire)'
+                        clilsOuClilFel:
+                          - code: '3775'
+                            libellé: 'Bandes dessinées de genre -- Documentaire (culture, société, littérature, adaptation littéraire)'
+                        club_rayons:
+                          - code: '1810'
+                            libellé: 'BD & Humour / Bandes dessinnées / Bd'
+                        collections: []
+                        collectionsIssn: []
+                        contributeurs:
+                          - contribution: Auteur adapté
+                            id: 0-1249337
+                            nom: Victor Hugo
+                            formeBib: 'Hugo, Victor'
+                            nationalité: France
+                          - contribution: Coloriste
+                            id: 0-11439081
+                            nom: Ettolrahc
+                            formeBib: Ettolrahc
+                        cora_extra:
+                          thèmeClientRayon:
+                            - code: BDH0100
+                              libellé: Bandes dessinées adulte
+                        dateParution: '2016-04-15T00:00:00'
+                        description:
+                          nbPages: 47
+                          largeur: 22
+                          hauteur: 31
+                          mentionIllustrations: illustrations en couleur
+                        deweys:
+                          - code: '741.56'
+                            libellé: 'Arts graphiques et arts décoratifs -- Dessin et dessins -- Albums de bandes dessinées, romans graphiques, romans-photos, dessins humoristiques, caricatures, bandes dessinées -- Bandes dessinées, dessins humoristiques, caricatures'
+                        deweysAbrégées:
+                          - code: '741'
+                            libellé: Arts graphiques et arts décoratifs -- Dessin et dessins
+                        disponibilité: disponible
+                        disponibilitéExacte:
+                          code: '1'
+                          libellé: Disponible
+                        distributeurs:
+                          - id: 0-428386
+                            gln: '3012264580000'
+                            nom: Makassar
+                        droits: []
+                        eans:
+                          - '9782910867492'
+                        eansAnciennesEditions: []
+                        eansCouverture:
+                          - '9782910867492'
+                        eansErronés: []
+                        eansFeuilletage: []
+                        eansNouvellesEditions: []
+                        éditeurs:
+                          - id: 0-726098
+                            libellé: Tartamudo
+                        éditeursLieuPublication:
+                          - lieuPublication: Cachan (Val-de-Marne)
+                            id: 0-726098
+                            libellé: Tartamudo
+                        éditions: []
+                        fel_codeRetour: '1'
+                        fel_impressionALaDemande: false
+                        flagFiction: true
+                        flagScolaire: false
+                        formatNumérique: ''
+                        formatsContenus: []
+                        genres: []
+                        groupesDeTitres:
+                          - type: principal
+                            titres:
+                              - type: simple
+                                libellé: Les misérables
+                                soustitres:
+                                  - une libre adaptation à Besançon
+                            mentions:
+                              - 'Christian Maucler, Yann Chavarot'
+                              - "d'après Victor Hugo"
+                              - mise en couleur par Ettolrahc
+                        groupesDeTitresIdOeuvre:
+                          - type: principal
+                            titres:
+                              - type: simple
+                                libellé: Les misérables
+                                soustitres:
+                                  - une libre adaptation à Besançon
+                                idOeuvre: 0-793
+                            mentions:
+                              - 'Christian Maucler, Yann Chavarot'
+                              - "d'après Victor Hugo"
+                              - mise en couleur par Ettolrahc
+                        groupesDeTitresIdOeuvreSaufTcNonPrio:
+                          - type: principal
+                            titres:
+                              - type: simple
+                                libellé: Les misérables
+                                soustitres:
+                                  - une libre adaptation à Besançon
+                                idOeuvre: 0-793
+                            mentions:
+                              - 'Christian Maucler, Yann Chavarot'
+                              - "d'après Victor Hugo"
+                              - mise en couleur par Ettolrahc
+                        id: 0-2945081
+                        isbns:
+                          - 2-910867-49-8
+                          - 978-2-910867-49-2
+                        isbns10Erronés: []
+                        isbns13Erronés: []
+                        isbnsErronés: []
+                        librest_extra:
+                          thèmeClientRayon:
+                            - code: T090201P0L00
+                              libellé: ''
+                        mollat_extra:
+                          origine: null
+                          thèmeClientRayon:
+                            - code: LB1L
+                              libellé: Adaptations littéraires
+                          thèmeClientSupport: []
+                          thèmeClientWeb:
+                            - code: IBA1L
+                              libellé: Adaptations littéraires
+                          thèmeClientRayonCalculé:
+                            - code: LB1L
+                              libellé: Adaptations littéraires
+                          thèmeClientSupportCalculé: []
+                          thèmeClientWebCalculé:
+                            - code: IBA1L
+                              libellé: Adaptations littéraires
+                          stock: 0
+                          codeDélai: DI
+                          ventesWeb: 0
+                          ventesCollectivité: 0
+                          ventesComptant: 0
+                        nbPages: 47
+                        oeuvre:
+                          id: 0-2225756
+                          type: secondaire
+                          catégorie: simple
+                          titre: 'Les misérables : une libre adaptation à Besançon'
+                          genres:
+                            - Œuvre illustrée
+                          contributeurs:
+                            - id: 0-1278474
+                              contribution:
+                                code: A01
+                                libellé: Auteur
+                              formeBib: 'Maucler, Christian (1961-....)'
+                            - id: 0-11306717
+                              contribution:
+                                code: A01
+                                libellé: Auteur
+                              formeBib: 'Chavarot, Yann'
+                            - id: 0-1249337
+                              contribution:
+                                code: A06
+                                libellé: Auteur adapté
+                              formeBib: 'Hugo, Victor (1802-1885)'
+                            - id: 0-11439081
+                              contribution:
+                                code: A15
+                                libellé: Coloriste
+                              formeBib: Ettolrahc
+                          oeuvreMaître:
+                            id: 0-2225755
+                            type: dérivée
+                            catégorie: simple
+                            titre: 'Les misérables : une libre adaptation à Besançon'
+                            genres:
+                              - Autres contributions
+                              - Adaptation pour la BD
+                              - Œuvre modifiée
+                              - Œuvre modifiée avec illustrations
+                            contributeurs:
+                              - id: 0-1278474
+                                contribution:
+                                  code: A01
+                                  libellé: Auteur
+                                formeBib: 'Maucler, Christian (1961-....)'
+                              - id: 0-11306717
+                                contribution:
+                                  code: A01
+                                  libellé: Auteur
+                                formeBib: 'Chavarot, Yann'
+                              - id: 0-1249337
+                                contribution:
+                                  code: A06
+                                  libellé: Auteur adapté
+                                formeBib: 'Hugo, Victor (1802-1885)'
+                            oeuvreMaître:
+                              id: 0-793
+                              type: princeps
+                              catégorie: simple
+                              titre: Les misérables
+                              genres: []
+                              contributeurs:
+                                - id: 0-1249337
+                                  contribution:
+                                    code: A01
+                                    libellé: Auteur
+                                  formeBib: 'Hugo, Victor (1802-1885)'
+                              oeuvreIdentique:
+                                id: 0-6434
+                                type: princeps
+                                catégorie: opp
+                                titre: Les misérables
+                                genres: []
+                                contributeurs:
+                                  - id: 0-1249337
+                                    contribution:
+                                      code: A01
+                                      libellé: Auteur
+                                    formeBib: 'Hugo, Victor (1802-1885)'
+                        poids: 483
+                        présentationEditeur: ''
+                        prix:
+                          devise: EUR
+                          ttc: 12
+                          hts:
+                            - 11.37
+                          tvas:
+                            - 5.5
+                        protection: ''
+                        publics: []
+                        quatrièmeDeCouverture: "Victor Hugo et Les Misérables, un géant de la littérature et une célèbre histoire\n dans une libre adaptation en bande dessinée. Une reconstitution réalisée par\n Christian Maucler et Yann Chavarot.\r\n\r\nIls se sont emparés avec audace de ce conte magistral et lui ont donné le cadre\n de la ville de Besançon. L'immortel légendaire, père de cette oeuvre d'une\n immense humanité, en était natif.\r\n\r\nDans les pages qui composent la narration de cet ouvrage, la géographie\n et certaines villes environnantes du département du Doubs, au cours du\n XIXe siècle, sont mises à l'honneur avec une grande rigueur artistique.\r\n\r\nUn souffle étonnant traverse la nouvelle version de ce roman de renommée\n internationale dont la portée universelle n'est plus à prouver."
+                        quatrièmeDeCouvertureSinonRésumé: "Victor Hugo et Les Misérables, un géant de la littérature et une célèbre histoire\n dans une libre adaptation en bande dessinée. Une reconstitution réalisée par\n Christian Maucler et Yann Chavarot.\r\n\r\nIls se sont emparés avec audace de ce conte magistral et lui ont donné le cadre\n de la ville de Besançon. L'immortel légendaire, père de cette oeuvre d'une\n immense humanité, en était natif.\r\n\r\nDans les pages qui composent la narration de cet ouvrage, la géographie\n et certaines villes environnantes du département du Doubs, au cours du\n XIXe siècle, sont mises à l'honneur avec une grande rigueur artistique.\r\n\r\nUn souffle étonnant traverse la nouvelle version de ce roman de renommée\n internationale dont la portée universelle n'est plus à prouver."
+                        rayons:
+                          - code: R0301
+                            libellé: Albums
+                        reliure: Cartonné
+                        résumé: "L'action du roman de V. Hugo, qui met en scène Jean Valjean, un homme libéré du bagne en 1815 et traqué par la justice en la personne de Javert, est transposée au XIXe siècle à Besançon et dans les villes environnantes du département du Doubs. ©Electre 2019"
+                        séries: []
+                        sériesIssn: []
+                        source: electre
+                        themaCatégories:
+                          - code: XQB
+                            libellé: Adaptations de textes littéraires
+                        themaQualificatifs: []
+                        themas:
+                          - code: XQB
+                            libellé: Adaptations de textes littéraires
+                        thèmes:
+                          - code: T090201
+                            libellé: Adaptation de textes littéraires
+                        titre: 'Les misérables : une libre adaptation à Besançon'
+                        titresContenus: []
+                    totalCount: 3
+      operationId: resultats-recherche
+      description: Retourne les résultats de la recherche (par identifiant)
+      security:
+        - idp-electre:
+            - webapi
+      requestBody:
+        description: ''
+      parameters:
+        - schema:
+            type: string
+            enum:
+              - pertinenceAsc
+              - pertinenceDesc
+              - prixAsc
+              - prixDesc
+              - dateAsc
+              - dateDesc
+              - disponibilitéAsc
+              - disponibilitéDesc
+              - titreAsc
+              - titreDesc
+              - auteurAsc
+              - auteurDesc
+              - éditeurAsc
+              - éditeurDesc
+              - collectionAsc
+              - collectionDesc
+            default: pertinenceDesc
+          in: query
+          name: sort
+          description: |
+            Paramètre de tri des resultats
+        - schema:
+            type: integer
+            default: '0'
+          in: query
+          name: page
+          description: Numéro de page de résultat
+        - schema:
+            type: integer
+            default: '50'
+          in: query
+          name: itemsPerPage
+          description: Nombre de résultats sur une page
+  '/searches/{id}/results/{index}':
+    parameters:
+      - type: string
+        name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Identifiant de la recherche
+      - type: string
+        name: index
+        in: path
+        required: true
+        schema:
+          type: integer
+        description: Position du résultat dans la liste
+    get:
+      summary: Résultat de recherche par index
+      tags:
+        - recherche
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              examples:
+                'Exemple: résultat de recherche par index':
+                  value:
+                    _links:
+                      - rel: self
+                        href: 'https://api.electre.com/v1.0/searches/fc010417-15bb-11e9-a6f6-7390b425f9d7/results/0'
+                      - rel: book
+                        href: 'https://api.electre.com/v1.0/books/0-3028381'
+                      - rel: coverMedia
+                        href: 'https://api.electre.com/v1.0/books/0-3028381/covers/9782368522226?alt=media'
+                    annéeEdition: 2016
+                    appelDuLivre_extra:
+                      thèmeClientDroit: []
+                      thèmeClientRayon:
+                        - code: BD0030
+                          libellé: Mangas
+                      thèmeClientSupport:
+                        - code: POC
+                          libellé: Poche
+                    auteurs:
+                      - contribution: Auteur
+                        id: 0-1151000
+                        nom: Takahiro Arai
+                        formeBib: 'Arai, Takahiro'
+                        nationalité: Japon
+                    biographie: "Takahiro Arai,\n cent cinquante ans ont passé depuis\n la première publication des Misérables.\n Cinéma, théâtre, dessin animé,\n manga, etc, les personnages des\n Misérables ont été mis en scène\n sous différentes formes.\r\n\r\nEt je pense bien qu'aucun autre\n personnage n'a fait l'objet d'autant\n de variantes que Marius.\r\n\r\nMoi aussi je suis impatient de voir quel\n genre de personnage je vais en faire."
+                    catalog: livre
+                    cdi_Adèle_rayons:
+                      - code: BD0802
+                        libellé: shonen
+                    cdi_supports:
+                      - code: LBR
+                        libellé: Livre broché
+                      - code: LPO
+                        libellé: Poche
+                    clilFel:
+                      code: '3795'
+                      libellé: Manga -- Shonen
+                    clils:
+                      - code: '3792'
+                        libellé: 'Bandes dessinées, comics, mangas -- Manga'
+                    clilsOuClilFel:
+                      - code: '3792'
+                        libellé: 'Bandes dessinées, comics, mangas -- Manga'
+                    club_rayons:
+                      - code: '1811'
+                        libellé: 'BD & Humour / Bandes dessinnées / Manga'
+                    collections: []
+                    collectionsIssn: []
+                    contributeurs:
+                      - contribution: Auteur adapté
+                        id: 0-1249337
+                        nom: Victor Hugo
+                        formeBib: 'Hugo, Victor'
+                        nationalité: France
+                      - contribution: Adaptateur
+                        id: 0-11408502
+                        nom: Yoshio Toyoshima
+                        formeBib: 'Toyoshima, Yoshio'
+                      - contribution: Traducteur
+                        id: 0-1164938
+                        nom: Nesrine Mezouane
+                        formeBib: 'Mezouane, Nesrine'
+                        langue: japonais
+                    cora_extra:
+                      stockGL: 1
+                      thèmeClientRayon:
+                        - code: BDH0504
+                          libellé: Autres Mangas
+                    dateParution: '2016-02-11T00:00:00'
+                    description:
+                      nbPages: 208
+                      largeur: 13
+                      hauteur: 19
+                      épaisseur: 1.7
+                      mentionIllustrations: illustrations en noir et blanc
+                    deweys:
+                      - code: '741.56'
+                        libellé: 'Arts graphiques et arts décoratifs -- Dessin et dessins -- Albums de bandes dessinées, romans graphiques, romans-photos, dessins humoristiques, caricatures, bandes dessinées -- Bandes dessinées, dessins humoristiques, caricatures'
+                    deweysAbrégées:
+                      - code: '741'
+                        libellé: Arts graphiques et arts décoratifs -- Dessin et dessins
+                    disponibilité: disponible
+                    disponibilitéExacte:
+                      code: '1'
+                      libellé: Disponible
+                    distributeurs:
+                      - id: 0-439028
+                        gln: '3012166100000'
+                        nom: Interforum
+                    droits: []
+                    eans:
+                      - '9782368522226'
+                    eansAnciennesEditions: []
+                    eansCouverture:
+                      - '9782368522226'
+                    eansErronés: []
+                    eansFeuilletage: []
+                    eansNouvellesEditions: []
+                    éditeurs:
+                      - id: 0-749013
+                        libellé: Kurokawa
+                    éditeursLieuPublication:
+                      - lieuPublication: Paris
+                        id: 0-749013
+                        libellé: Kurokawa
+                    éditions: []
+                    fel_codeRetour: '1'
+                    fel_impressionALaDemande: false
+                    flagFiction: true
+                    flagScolaire: false
+                    formatNumérique: ''
+                    formatsContenus: []
+                    genres:
+                      - code: GRPO000
+                        libellé: Rayon poche
+                    groupesDeTitres:
+                      - type: ensemble
+                        titres:
+                          - type: simple
+                            libellé: Les misérables
+                        mentions:
+                          - Takahiro Arai
+                          - "d'après Victor Hugo"
+                          - adaptation Yoshio Toyoshima
+                          - traduit du japonais par Nesrine Mezouane
+                        numéro: '4'
+                    groupesDeTitresIdOeuvre:
+                      - type: ensemble
+                        titres:
+                          - type: simple
+                            libellé: Les misérables
+                            idOeuvre: 0-6434
+                        mentions:
+                          - Takahiro Arai
+                          - "d'après Victor Hugo"
+                          - adaptation Yoshio Toyoshima
+                          - traduit du japonais par Nesrine Mezouane
+                        numéro: '4'
+                    groupesDeTitresIdOeuvreSaufTcNonPrio:
+                      - type: ensemble
+                        titres:
+                          - type: simple
+                            libellé: Les misérables
+                            idOeuvre: 0-6434
+                        mentions:
+                          - Takahiro Arai
+                          - "d'après Victor Hugo"
+                          - adaptation Yoshio Toyoshima
+                          - traduit du japonais par Nesrine Mezouane
+                        numéro: '4'
+                    id: 0-3028381
+                    isbns:
+                      - 2-36852-222-0
+                      - 978-2-36852-222-6
+                    isbns10Erronés: []
+                    isbns13Erronés: []
+                    isbnsErronés: []
+                    librest_extra:
+                      thèmeClientRayon:
+                        - code: T090400P0L00
+                          libellé: ''
+                    mollat_extra:
+                      origine: null
+                      thèmeClientRayon:
+                        - code: LB4B
+                          libellé: Shônen
+                      thèmeClientSupport:
+                        - code: LBR
+                          libellé: Livre broché
+                        - code: LPO
+                          libellé: Livre poche
+                      thèmeClientWeb:
+                        - code: IBA4A
+                          libellé: Manga général
+                        - code: IBA4B
+                          libellé: Shônen
+                      thèmeClientRayonCalculé:
+                        - code: LB4B
+                          libellé: Shônen
+                      thèmeClientSupportCalculé:
+                        - code: LBR
+                          libellé: Livre broché
+                        - code: LPO
+                          libellé: Livre poche
+                      thèmeClientWebCalculé:
+                        - code: IBA4A
+                          libellé: Manga général
+                        - code: IBA4B
+                          libellé: Shônen
+                      stock: 1
+                      codeDélai: DI
+                      ventesWeb: 0
+                      ventesCollectivité: 0
+                      ventesComptant: 1
+                    nbPages: 208
+                    oeuvre:
+                      id: 0-2134439
+                      type: secondaire
+                      catégorie: simple
+                      titre: (Néant)
+                      genres:
+                        - Traduction
+                      contributeurs:
+                        - id: 0-1151000
+                          contribution:
+                            code: A01
+                            libellé: Auteur
+                          formeBib: 'Arai, Takahiro (1982-....)'
+                        - id: 0-1249337
+                          contribution:
+                            code: A06
+                            libellé: Auteur adapté
+                          formeBib: 'Hugo, Victor (1802-1885)'
+                        - id: 0-11408502
+                          contribution:
+                            code: A07
+                            libellé: Adaptateur
+                          formeBib: 'Toyoshima, Yoshio'
+                        - id: 0-1164938
+                          contribution:
+                            code: A05
+                            libellé: Traducteur
+                          formeBib: 'Mezouane, Nesrine'
+                      oeuvreMaître:
+                        id: 0-2134438
+                        type: princeps
+                        catégorie: simple
+                        titre: (Néant)
+                        genres: []
+                        contributeurs:
+                          - id: 0-1151000
+                            contribution:
+                              code: A01
+                              libellé: Auteur
+                            formeBib: 'Arai, Takahiro (1982-....)'
+                          - id: 0-1249337
+                            contribution:
+                              code: A06
+                              libellé: Auteur adapté
+                            formeBib: 'Hugo, Victor (1802-1885)'
+                          - id: 0-11408502
+                            contribution:
+                              code: A07
+                              libellé: Adaptateur
+                            formeBib: 'Toyoshima, Yoshio'
+                      oeuvresRegroupésPar:
+                        - id: 0-2067126
+                          type: secondaire
+                          catégorie: opp
+                          titre: Les misérables
+                          genres:
+                            - Traduction
+                          contributeurs:
+                            - id: 0-1151000
+                              contribution:
+                                code: A01
+                                libellé: Auteur
+                              formeBib: 'Arai, Takahiro (1982-....)'
+                            - id: 0-1249337
+                              contribution:
+                                code: A06
+                                libellé: Auteur adapté
+                              formeBib: 'Hugo, Victor (1802-1885)'
+                            - id: 0-11408502
+                              contribution:
+                                code: A07
+                                libellé: Adaptateur
+                              formeBib: 'Toyoshima, Yoshio'
+                            - id: 0-1164938
+                              contribution:
+                                code: A05
+                                libellé: Traducteur
+                              formeBib: 'Mezouane, Nesrine'
+                          oeuvreMaître:
+                            id: 0-2067125
+                            type: dérivée
+                            catégorie: opp
+                            titre: Les misérables
+                            genres:
+                              - Autres contributions
+                              - Adaptation pour la BD
+                              - Œuvre modifiée
+                              - Œuvre modifiée avec illustrations
+                            contributeurs:
+                              - id: 0-1151000
+                                contribution:
+                                  code: A01
+                                  libellé: Auteur
+                                formeBib: 'Arai, Takahiro (1982-....)'
+                              - id: 0-1249337
+                                contribution:
+                                  code: A06
+                                  libellé: Auteur adapté
+                                formeBib: 'Hugo, Victor (1802-1885)'
+                              - id: 0-11408502
+                                contribution:
+                                  code: A07
+                                  libellé: Adaptateur
+                                formeBib: 'Toyoshima, Yoshio'
+                            oeuvreMaître:
+                              id: 0-6434
+                              type: princeps
+                              catégorie: opp
+                              titre: Les misérables
+                              genres: []
+                              contributeurs:
+                                - id: 0-1249337
+                                  contribution:
+                                    code: A01
+                                    libellé: Auteur
+                                  formeBib: 'Hugo, Victor (1802-1885)'
+                              oeuvreIdentique:
+                                id: 0-793
+                                type: princeps
+                                catégorie: simple
+                                titre: Les misérables
+                                genres: []
+                                contributeurs:
+                                  - id: 0-1249337
+                                    contribution:
+                                      code: A01
+                                      libellé: Auteur
+                                    formeBib: 'Hugo, Victor (1802-1885)'
+                    poids: 194
+                    présentationEditeur: ''
+                    prix:
+                      devise: EUR
+                      ttc: 7.65
+                      hts:
+                        - 7.25
+                      tvas:
+                        - 5.5
+                    procure_extra:
+                      prixTTC: '7,65'
+                      prixHT: '7,25'
+                      prixPromo: '0'
+                      codeDisponibilité: D8
+                      codeFamille: P-690
+                      codeSousFamille: P-690-10
+                      codeSousSousFamille: P-690-10-80
+                      poids: '0'
+                      codeGenre: W-1
+                      typeProduit: L
+                      ventes: '0'
+                    protection: ''
+                    publics:
+                      - code: PJ0402
+                        libellé: Jeunesse -- Bons lecteurs (à partir de 9 ans) -- A partir de 10 ans
+                    quatrièmeDeCouverture: ''
+                    quatrièmeDeCouvertureSinonRésumé: 'Jean Valjean se rend à Montfermeil, la veille de Noël, afin de libérer Cosette et ainsi de tenir la promesse faite à Fantine. ©Electre 2019'
+                    rayons:
+                      - code: R0303
+                        libellé: Mangas
+                      - code: R1501
+                        libellé: Poche
+                    reliure: Broché sous jaquette
+                    résumé: 'Jean Valjean se rend à Montfermeil, la veille de Noël, afin de libérer Cosette et ainsi de tenir la promesse faite à Fantine. ©Electre 2019'
+                    séries:
+                      - id: 0-328272
+                        libellé: 'Les misérables, n° 4'
+                    sériesIssn:
+                      - id: 0-328272
+                        libellé: 'Les misérables, n° 4'
+                    source: electre
+                    themaCatégories:
+                      - code: XAM
+                        libellé: Manga et bande dessinée de style asiatique
+                    themaQualificatifs:
+                      - code: 5AL
+                        libellé: A partir de 10 ans
+                    themas:
+                      - code: XAM
+                        libellé: Manga et bande dessinée de style asiatique
+                    thèmes:
+                      - code: T090400
+                        libellé: Manga-Manhwa
+                    titre: Les misérables. Volume 4
+                    titresContenus: []
+      operationId: get-searches-id-results-index
+      description: |-
+        Retourne **le résultat** à la position `index` pour une recherche identifié par `id`.
+
+        Les paramètres de tri sont identiques à la recherche avec pagination.
+      security:
+        - idp-electre:
+            - webapi
+      parameters:
+        - schema:
+            type: string
+            enum:
+              - pertinenceAsc
+              - pertinenceDesc
+              - prixAsc
+              - prixDesc
+              - dateAsc
+              - dateDesc
+              - disponibilitéAsc
+              - disponibilitéDesc
+              - titreAsc
+              - titreDesc
+              - auteurAsc
+              - auteurDesc
+              - éditeurAsc
+              - éditeurDesc
+              - collectionAsc
+              - collectionDesc
+            default: pertinenceDesc
+            maxLength: 0
+          in: query
+          name: sort
+          description: Le critère de tri pour cette recherche
+  '/searches/{id}/facets':
+    parameters:
+      - type: string
+        name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Identifiant de la recherche
+    get:
+      summary: "Liste des facettes d'une recherche"
+      tags:
+        - recherche
+        - facette
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              examples:
+                'Exemple: résultat de recherche par facette':
+                  value:
+                    - name: auteur
+                      info:
+                        - code: 0-1174712
+                          label: Dominique Auzias
+                          isChecked: false
+                          count: 12
+                          id: 0-1174712
+                        - code: 0-1259750
+                          label: Jean-Paul Labourdette
+                          isChecked: false
+                          count: 12
+                          id: 0-1259750
+                        - code: 0-1259624
+                          label: Marie Laberge
+                          isChecked: false
+                          count: 7
+                          id: 0-1259624
+                        - code: 1-2000115195
+                          label: Louis-Georges Désaulniers
+                          isChecked: false
+                          count: 6
+                          id: 1-2000115195
+                        - code: 1-2000048974
+                          label: Jean Lemieux
+                          isChecked: false
+                          count: 5
+                          id: 1-2000048974
+                      _links: null
+                    - name: éditeur
+                      info:
+                        - code: 1-89764
+                          label: Les Éditions Québec-Livres
+                          isChecked: false
+                          count: 87
+                          id: 1-89764
+                        - code: 1-647
+                          label: Éditions Québec-Amérique
+                          isChecked: false
+                          count: 73
+                          id: 1-647
+                        - code: 1-629
+                          label: "Presses de l'Université du Québec"
+                          isChecked: false
+                          count: 35
+                          id: 1-629
+                        - code: 1-598
+                          label: Éditions Liber
+                          isChecked: false
+                          count: 16
+                          id: 1-598
+                        - code: 0-794314
+                          label: Fenixx
+                          isChecked: false
+                          count: 13
+                          id: 0-794314
+                      _links: null
+      operationId: recherche-facettes
+      description: La liste des facettes disponibles pour une recherche.
+      security:
+        - idp-electre:
+            - webapi
+      parameters:
+        - schema:
+            type: string
+            enum:
+              - auteur
+              - éditeur
+          in: query
+          name: facet
+          description: Le type de la facette cible
+        - schema:
+            type: integer
+            maximum: 50
+            default: '5'
+          in: query
+          name: facetLimit
+          description: Le nombre maximum de valeurs par facette
+  '/searches/{id}/facets/{facet}':
+    parameters:
+      - type: string
+        name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Identifiant de la recherche
+      - type: string
+        name: facet
+        in: path
+        required: true
+        schema:
+          type: string
+          enum:
+            - auteur
+            - éditeur
+        description: Le type de la facette
+    get:
+      summary: "Facette d'une recherche"
+      tags:
+        - recherche
+        - facette
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              examples:
+                "Exemple: recherche de facette 'Auteur'":
+                  value:
+                    name: auteur
+                    info:
+                      - code: 0-1364433
+                        label: 'Jepson, Tim'
+                        isChecked: false
+                        count: 4
+                        id: 0-1364433
+                      - code: 0-1174712
+                        label: 'Auzias, Dominique'
+                        isChecked: false
+                        count: 3
+                        id: 0-1174712
+                      - code: 0-1259750
+                        label: 'Labourdette, Jean-Paul'
+                        isChecked: false
+                        count: 3
+                        id: 0-1259750
+                      - code: 0-1140915
+                        label: 'Leviton, Alex'
+                        isChecked: false
+                        count: 3
+                        id: 0-1140915
+                      - code: 0-130818
+                        label: 'Quintero, Josephine'
+                        isChecked: false
+                        count: 2
+                        id: 0-130818
+                      - code: 0-159917
+                        label: 'Watkins, Richard'
+                        isChecked: false
+                        count: 2
+                        id: 0-159917
+                      - code: 0-1210546
+                        label: 'Dauber, Maximilien'
+                        isChecked: false
+                        count: 1
+                        id: 0-1210546
+                      - code: 0-1227818
+                        label: 'Fleischer, Alain'
+                        isChecked: false
+                        count: 1
+                        id: 0-1227818
+                      - code: 0-11414757
+                        label: 'Galpin, Gérard'
+                        isChecked: false
+                        count: 1
+                        id: 0-11414757
+                      - code: 0-1140884
+                        label: 'Maxwell, Virginia'
+                        isChecked: false
+                        count: 1
+                        id: 0-1140884
+                      - code: 1-2000129310
+                        label: 'Noblet-Dauber, Martine'
+                        isChecked: false
+                        count: 1
+                        id: 1-2000129310
+                      - code: 0-1117156
+                        label: 'Pettersen, Leif'
+                        isChecked: false
+                        count: 1
+                        id: 0-1117156
+                      - code: 0-1303725
+                        label: 'Racine, Bruno'
+                        isChecked: false
+                        count: 1
+                        id: 0-1303725
+                      - code: 0-1316389
+                        label: 'Schinharl, Cornelia'
+                        isChecked: false
+                        count: 1
+                        id: 0-1316389
+                      - code: 0-169841
+                        label: 'Schinharl, Michael'
+                        isChecked: false
+                        count: 1
+                        id: 0-169841
+                      - code: 0-1808293
+                        label: 'Sordi, Italo'
+                        isChecked: false
+                        count: 1
+                        id: 0-1808293
+                      - code: 0-1350434
+                        label: 'Testa, Cinzi'
+                        isChecked: false
+                        count: 1
+                        id: 0-1350434
+                      - code: 0-1350435
+                        label: 'Tizzoni, Monica'
+                        isChecked: false
+                        count: 1
+                        id: 0-1350435
+                    _links: null
+      operationId: recherche-facette
+      parameters:
+        - schema:
+            type: number
+            maximum: 50
+          in: query
+          name: max
+          description: Le nombre maximum de valeurs par facette
+        - schema:
+            type: boolean
+            default: 'false'
+          in: query
+          name: sortOnLabel
+          description: 'Booléen pour indiquer si le tri doit être sur libellé, au lieu de par occurrence'
+      description: "Retourne les informations détaillées d'une facette (`auteur` ou `éditeur`) pour une recherche donnée (`ìd` identifiant de recherche)."
+      security:
+        - idp-electre:
+            - webapi
+components:
+  schemas: {}
