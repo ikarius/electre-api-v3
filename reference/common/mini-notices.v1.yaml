@@ -1,0 +1,49 @@
+openapi: 3.0.0
+info:
+  title: mini-notices
+  version: '1.0'
+  description: "Simple templates des points d'appels des fonctions \"mini-notices\""
+servers:
+  - url: 'http://localhost:3000'
+paths:
+  '/notices/{id}':
+    parameters:
+      - type: string
+        name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Identifiant de la mini-notice
+    put:
+      summary: "Mise à jour d'une mini-notice"
+      operationId: put-notices-id
+      responses:
+        '200':
+          description: OK
+      description: Mets à jour une nouvelle mini-notice avec ses données constituantes via son identifiant
+    delete:
+      summary: "Destruction d'une mini-notice"
+      operationId: delete-notices-id
+      responses:
+        '200':
+          description: OK
+      description: Détruit une mini-notice par son identifiant.
+  '/notices/{id}/record':
+    parameters:
+      - type: string
+        name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: |
+          identifiant de la mini-notice
+    get:
+      summary: Détail de la mini-notice
+      tags: []
+      responses: {}
+      operationId: get-notices-id-record
+      description: Retourne le détail de la mini-notice par son identifiant
+components:
+  schemas: {}
